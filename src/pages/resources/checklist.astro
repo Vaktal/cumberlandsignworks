@@ -1,0 +1,120 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const checklistItems = [
+  'File format cheat sheet',
+  'Size guide for common signs, banners, and yard signs',
+  'Apparel quantity & timeline guide',
+  'Vehicle wrap prep checklist',
+  '5 questions to ask any print shop before ordering',
+];
+
+const formEndpoint =
+  import.meta.env.PUBLIC_CHECKLIST_FORM_ENDPOINT || '#configure-checklist-form';
+---
+
+<BaseLayout
+  title="Free Project Checklist — Cumberland Signworks"
+  description="Everything you need before ordering signs, shirts, or a vehicle wrap. File specs, sizing, timelines — free PDF."
+>
+  <section class="section bg-cumberland-cream">
+    <div class="container-rail">
+      <div class="grid gap-12 lg:grid-cols-2 lg:items-start">
+        <!-- Left: value prop -->
+        <div>
+          <p class="eyebrow">Free download</p>
+          <h1 class="mt-4 text-cumberland-ink">
+            The Sign &amp; Apparel Project Checklist.
+          </h1>
+          <p class="mt-6 text-lg text-cumberland-stone leading-relaxed">
+            Stop guessing what your printer needs. This one-page PDF walks you through
+            everything before you place an order — so nothing gets held up on a file spec
+            or a size question.
+          </p>
+          <ul class="mt-8 space-y-4" aria-label="What's included">
+            {checklistItems.map((item) => (
+              <li class="flex gap-3 text-cumberland-stone">
+                <span class="text-cumberland-clay shrink-0 font-bold" aria-hidden="true">✓</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Right: email capture form -->
+        <div class="rounded-3xl bg-white shadow-sm border border-cumberland-mist p-8 lg:p-10">
+          <p class="font-display text-2xl text-cumberland-ink">Get your free copy</p>
+          <p class="mt-2 text-sm text-cumberland-stone">One email. Your checklist. No spam.</p>
+
+          <form
+            action={formEndpoint}
+            method="POST"
+            class="mt-8 space-y-5"
+            aria-label="Checklist request form"
+          >
+            <input type="hidden" name="_next" value="/thank-you" />
+            <input
+              type="hidden"
+              name="_subject"
+              value="Checklist Request — Cumberland Signworks"
+            />
+
+            <!-- Honeypot -->
+            <input
+              type="text"
+              name="website"
+              tabindex="-1"
+              autocomplete="off"
+              class="absolute left-[-9999px]"
+              aria-hidden="true"
+            />
+
+            <div>
+              <label
+                for="checklist-name"
+                class="block text-sm font-semibold text-cumberland-ink mb-1"
+              >
+                Your name
+              </label>
+              <input
+                type="text"
+                id="checklist-name"
+                name="name"
+                required
+                autocomplete="name"
+                class="w-full rounded-xl border border-cumberland-mist bg-cumberland-cream px-4 py-3 text-cumberland-ink placeholder:text-cumberland-stone/60 focus:outline-none focus:ring-2 focus:ring-cumberland-forest"
+                placeholder="First name is fine"
+              />
+            </div>
+
+            <div>
+              <label
+                for="checklist-email"
+                class="block text-sm font-semibold text-cumberland-ink mb-1"
+              >
+                Email address
+              </label>
+              <input
+                type="email"
+                id="checklist-email"
+                name="email"
+                required
+                autocomplete="email"
+                class="w-full rounded-xl border border-cumberland-mist bg-cumberland-cream px-4 py-3 text-cumberland-ink placeholder:text-cumberland-stone/60 focus:outline-none focus:ring-2 focus:ring-cumberland-forest"
+                placeholder="you@example.com"
+              />
+            </div>
+
+            <button type="submit" class="btn-primary w-full justify-center">
+              Send me the checklist
+            </button>
+
+            <p class="text-center text-xs text-cumberland-stone">
+              One email. Your checklist. No spam.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import CTASection from '@components/CTASection.astro';
+
+let portfolio: Awaited<ReturnType<typeof getCollection<'portfolio'>>> = [];
+try {
+  portfolio = await getCollection('portfolio');
+  portfolio.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+} catch {
+  // Empty collection — show placeholder state
+}
+---
+
+<BaseLayout
+  title="Portfolio — Cumberland Signworks Crossville TN"
+  description="See our work — vehicle wraps, storefront signs, team uniforms, and more from jobs across Cumberland County and the Upper Cumberland Plateau."
+>
+  <section class="section bg-cumberland-cream">
+    <div class="container-rail max-w-4xl">
+      <p class="eyebrow">Our work</p>
+      <h1 class="mt-4 text-cumberland-ink">
+        Work that shows up in the community.
+      </h1>
+      <p class="mt-6 text-xl leading-relaxed text-cumberland-stone">
+        Vehicle wraps in parking lots. Signs on storefronts. Shirts on game day.
+        Here's a look at what we've built for schools, teams, and businesses across the Upper Cumberland.
+      </p>
+    </div>
+  </section>
+
+  {portfolio.length === 0 ? (
+    <section class="section bg-white">
+      <div class="container-rail max-w-3xl text-center">
+        <h2 class="text-cumberland-ink">Photos coming soon.</h2>
+        <p class="mt-6 text-lg leading-relaxed text-cumberland-stone">
+          We're building out our online portfolio. In the meantime — call us and we'll show you
+          work similar to what you're looking for.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="/start-your-project" class="btn-primary">Start Your Project</a>
+          <a href="/contact" class="btn-secondary">Call us</a>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section class="section bg-white">
+      <div class="container-rail">
+        <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {portfolio.map((item) => (
+            <li class="rounded-3xl border border-cumberland-mist overflow-hidden bg-cumberland-cream">
+              <div class="p-8">
+                <p class="eyebrow">{item.data.serviceType}</p>
+                <p class="mt-2 font-display text-2xl text-cumberland-ink leading-tight">
+                  {item.data.title}
+                </p>
+                <p class="mt-2 text-sm text-cumberland-stone">{item.data.client}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <CTASection />
+</BaseLayout>

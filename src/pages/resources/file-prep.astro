@@ -1,0 +1,118 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="File Prep Guide — Cumberland Signworks"
+  description="How to prepare artwork files for signs, shirts, vehicle wraps, and print. Vector vs raster, file formats, color modes."
+>
+  <section class="section bg-cumberland-cream">
+    <div class="container-rail max-w-4xl">
+      <p class="eyebrow">File prep guide</p>
+      <h1 class="mt-4 text-cumberland-ink">
+        Get your files ready. We'll handle the rest.
+      </h1>
+      <p class="mt-6 text-xl leading-relaxed text-cumberland-stone">
+        Not sure what to send? Here's the plain-English rundown — no software degree required.
+        And if you still don't know, send us whatever you have. We'll tell you if it works.
+      </p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-rail max-w-4xl space-y-8">
+
+      <!-- Card 1: The short version -->
+      <div class="rounded-3xl border border-cumberland-mist bg-cumberland-cream p-8 lg:p-10">
+        <p class="eyebrow">The short version</p>
+        <h2 class="mt-3 text-cumberland-ink">Send a vector file if you have one.</h2>
+        <p class="mt-4 text-cumberland-stone leading-relaxed">
+          If your designer gave you an <strong>.AI, .EPS, .SVG, or a PDF exported from Illustrator</strong>,
+          send that. Vector files scale to any size without losing sharpness — perfect for signs,
+          apparel, and wraps.
+        </p>
+        <p class="mt-3 text-cumberland-stone leading-relaxed">
+          If you don't have one, send the highest-resolution file you do have and we'll take a look.
+          We'll let you know right away if it'll work for your job.
+        </p>
+      </div>
+
+      <!-- Card 2: Vector vs Raster -->
+      <div class="rounded-3xl border border-cumberland-mist bg-cumberland-cream p-8 lg:p-10">
+        <p class="eyebrow">Vector vs. raster</p>
+        <h2 class="mt-3 text-cumberland-ink">What's the difference?</h2>
+        <div class="mt-6 grid gap-6 sm:grid-cols-2">
+          <div class="rounded-2xl bg-white border border-cumberland-mist p-6">
+            <p class="font-display text-xl text-cumberland-forest">Vector</p>
+            <ul class="mt-4 space-y-2 text-sm text-cumberland-stone">
+              <li class="flex gap-2">
+                <span class="text-cumberland-clay shrink-0" aria-hidden="true">✓</span>
+                Math-based — scales to any size perfectly
+              </li>
+              <li class="flex gap-2">
+                <span class="text-cumberland-clay shrink-0" aria-hidden="true">✓</span>
+                Preferred for all print and signage work
+              </li>
+              <li class="flex gap-2">
+                <span class="text-cumberland-clay shrink-0" aria-hidden="true">✓</span>
+                File types: .AI, .EPS, .SVG, .PDF (from Illustrator)
+              </li>
+            </ul>
+          </div>
+          <div class="rounded-2xl bg-white border border-cumberland-mist p-6">
+            <p class="font-display text-xl text-cumberland-ink">Raster</p>
+            <ul class="mt-4 space-y-2 text-sm text-cumberland-stone">
+              <li class="flex gap-2">
+                <span class="text-cumberland-stone shrink-0" aria-hidden="true">•</span>
+                Pixel-based — resolution matters
+              </li>
+              <li class="flex gap-2">
+                <span class="text-cumberland-stone shrink-0" aria-hidden="true">•</span>
+                Minimum 300 DPI at the intended print size
+              </li>
+              <li class="flex gap-2">
+                <span class="text-cumberland-stone shrink-0" aria-hidden="true">•</span>
+                File types: .PNG, .JPG, .TIFF
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Color mode -->
+      <div class="rounded-3xl border border-cumberland-mist bg-cumberland-cream p-8 lg:p-10">
+        <p class="eyebrow">Color mode</p>
+        <h2 class="mt-3 text-cumberland-ink">Which color mode should I use?</h2>
+        <ul class="mt-6 space-y-4 text-cumberland-stone">
+          <li class="flex gap-3">
+            <span class="font-semibold text-cumberland-ink w-36 shrink-0">Screen printing</span>
+            <span>Pantone / PMS colors preferred. Spot color artwork works best.</span>
+          </li>
+          <li class="flex gap-3 border-t border-cumberland-mist pt-4">
+            <span class="font-semibold text-cumberland-ink w-36 shrink-0">Digital print</span>
+            <span>CMYK preferred. RGB is OK — we'll convert, but colors may shift slightly.</span>
+          </li>
+          <li class="flex gap-3 border-t border-cumberland-mist pt-4">
+            <span class="font-semibold text-cumberland-ink w-36 shrink-0">Vehicle wraps</span>
+            <span>CMYK. Color accuracy matters most here — call us if you need a color match.</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card 4: Don't have the right file -->
+      <div class="rounded-3xl bg-cumberland-forest text-cumberland-cream p-8 lg:p-10">
+        <p class="eyebrow text-cumberland-mist">Don't have the right file?</p>
+        <h2 class="mt-3 text-cumberland-cream">Send what you have. We'll take it from there.</h2>
+        <p class="mt-4 text-cumberland-mist leading-relaxed">
+          You don't have to figure this out on your own. Send us whatever you've got — a photo
+          of a business card, a logo from your website, a Word document — and we'll look at it
+          and tell you straight whether it'll work, or what we can do to make it work.
+        </p>
+        <a href="/start-your-project" class="btn-primary mt-6 inline-flex bg-cumberland-clay hover:bg-cumberland-clay/90 border-transparent">
+          Start Your Project
+        </a>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

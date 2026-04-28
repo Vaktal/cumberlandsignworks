@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CTASection from '@components/CTASection.astro';
+import ThreeStepPlan from '@components/ThreeStepPlan.astro';
+
+const products = [
+  {
+    name: 'Business Cards',
+    description: 'Standard, rounded corner, thick stock. Design help included.',
+  },
+  {
+    name: 'Flyers',
+    description: 'Full-color 8.5×11, half-sheet, quarter-sheet. Events, menus, promos.',
+  },
+  {
+    name: 'Door Hangers',
+    description: 'Great for contractors, restaurants, and service businesses.',
+  },
+  {
+    name: 'Rack Cards',
+    description: '4×9 format for lobbies, waiting rooms, and countertops.',
+  },
+  {
+    name: 'Postcards',
+    description: 'Direct mail, announcements, and promotional mailers.',
+  },
+  {
+    name: 'Brochures',
+    description: 'Tri-fold and bi-fold. Help organizing content included.',
+  },
+];
+---
+
+<BaseLayout
+  title="Business Cards & Print — Cumberland Signworks Crossville TN"
+  description="Business cards, flyers, door hangers, and short-run printing in Crossville, TN. Design help included. Fast turnaround."
+>
+  <section class="section bg-cumberland-cream">
+    <div class="container-rail max-w-4xl">
+      <p class="eyebrow">Business Cards & Print</p>
+      <h1 class="mt-4 text-cumberland-ink">
+        Printed materials that leave the right impression.
+      </h1>
+      <p class="mt-6 text-xl leading-relaxed text-cumberland-stone">
+        Cards, flyers, and door hangers — printed right here in Crossville, with design help built in.
+        No guessing on file specs. No waiting on a call center.
+      </p>
+      <div class="mt-8">
+        <a href="/start-your-project" class="btn-primary">Start Your Project</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-cumberland-mist/40">
+    <div class="container-rail">
+      <p class="eyebrow">What we print</p>
+      <h2 class="mt-4 text-cumberland-ink">Short-run print services</h2>
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {products.map((product) => (
+          <li class="rounded-3xl bg-white border border-cumberland-mist p-8">
+            <p class="font-display text-2xl text-cumberland-ink leading-tight">
+              {product.name}
+            </p>
+            <p class="mt-3 text-cumberland-stone text-sm">{product.description}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <ThreeStepPlan />
+  <CTASection />
+</BaseLayout>
