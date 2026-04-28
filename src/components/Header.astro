@@ -1,7 +1,8 @@
 ---
 /**
- * Header — sticky top nav.
+ * Header — sticky top nav with mobile hamburger menu.
  * Single dominant CTA: Start Your Project.
+ * WCAG 2.1 AA: keyboard-navigable, visible focus rings, aria-expanded.
  */
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557';
 const phoneTel = import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557';
@@ -17,11 +18,13 @@ const navLinks = [
 
 <header class="sticky top-0 z-40 bg-cumberland-cream/95 backdrop-blur border-b border-cumberland-mist">
   <div class="container-rail flex items-center justify-between gap-6 py-4">
+    <!-- Logo -->
     <a href="/" class="flex items-center gap-2 font-display text-2xl tracking-tighter">
       <span class="text-cumberland-forest">Cumberland</span>
       <span class="text-cumberland-clay">Signworks</span>
     </a>
 
+    <!-- Desktop nav -->
     <nav class="hidden md:flex items-center gap-8 text-sm font-medium" aria-label="Primary">
       {
         navLinks.map((link) => (
@@ -35,10 +38,11 @@ const navLinks = [
       }
     </nav>
 
-    <div class="flex items-center gap-3">
+    <!-- Desktop right side: phone + CTA -->
+    <div class="hidden md:flex items-center gap-3">
       <a
         href={`tel:${phoneTel}`}
-        class="hidden lg:inline text-sm font-medium text-cumberland-ink hover:text-cumberland-forest"
+        class="hidden lg:inline text-sm font-medium text-cumberland-ink hover:text-cumberland-forest transition-colors"
       >
         {phone}
       </a>
@@ -46,5 +50,133 @@ const navLinks = [
         Start Your Project
       </a>
     </div>
+
+    <!-- Mobile: CTA + hamburger -->
+    <div class="flex items-center gap-3 md:hidden">
+      <a href="/start-your-project" class="btn-primary text-sm">
+        Start Your Project
+      </a>
+
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+        class="inline-flex items-center justify-center w-10 h-10 rounded text-cumberland-ink hover:text-cumberland-forest hover:bg-cumberland-mist transition-colors"
+      >
+        <!-- Hamburger icon (shown when menu is closed) -->
+        <svg
+          id="icon-open"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+
+        <!-- Close icon (shown when menu is open) -->
+        <svg
+          id="icon-close"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 hidden"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu (hidden by default) -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-cumberland-mist bg-cumberland-cream"
+    aria-label="Mobile navigation"
+  >
+    <nav class="container-rail py-4 flex flex-col gap-1">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="block px-3 py-3 rounded text-base font-medium text-cumberland-ink hover:text-cumberland-forest hover:bg-cumberland-mist transition-colors"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+
+      <div class="mt-3 pt-3 border-t border-cumberland-mist flex flex-col gap-3">
+        <a
+          href={`tel:${phoneTel}`}
+          class="block px-3 py-2 text-base font-medium text-cumberland-forest hover:text-cumberland-ink transition-colors"
+        >
+          {phone}
+        </a>
+        <a href="/start-your-project" class="btn-primary text-center">
+          Start Your Project
+        </a>
+      </div>
+    </nav>
   </div>
 </header>
+
+<script is:inline>
+  (function () {
+    var toggle = document.getElementById('mobile-menu-toggle');
+    var menu = document.getElementById('mobile-menu');
+    var iconOpen = document.getElementById('icon-open');
+    var iconClose = document.getElementById('icon-close');
+
+    if (!toggle || !menu || !iconOpen || !iconClose) return;
+
+    toggle.addEventListener('click', function () {
+      var isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      var willExpand = !isExpanded;
+
+      toggle.setAttribute('aria-expanded', String(willExpand));
+      toggle.setAttribute('aria-label', willExpand ? 'Close navigation menu' : 'Open navigation menu');
+
+      if (willExpand) {
+        menu.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+      } else {
+        menu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      }
+    });
+
+    // Close menu when a nav link is clicked
+    menu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        menu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+      });
+    });
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        menu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation menu');
+        toggle.focus();
+      }
+    });
+  })();
+</script>
