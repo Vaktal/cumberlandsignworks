@@ -1,0 +1,33 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Got it! — Cumberland Signworks"
+  description="We received your project request. Expect a reply within 24 hours."
+  noIndex={true}
+>
+  <section class="section bg-cumberland-cream min-h-[60vh] flex items-center">
+    <div class="container-rail max-w-2xl text-center">
+      <p class="font-display text-6xl text-cumberland-clay leading-none" aria-hidden="true">✓</p>
+      <h1 class="mt-6 text-cumberland-ink">We got it.</h1>
+      <p class="mt-6 text-xl leading-relaxed text-cumberland-stone">
+        Mike or Sarah will reply within 24 hours — Mon–Fri. Most quotes go out
+        the same day.
+      </p>
+      <p class="mt-4 text-cumberland-stone">
+        Need it faster? Call us:
+        <a
+          href={`tel:${import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557'}`}
+          class="text-cumberland-forest font-semibold hover:underline"
+        >
+          {import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557'}
+        </a>
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="/" class="btn-secondary">Back to home</a>
+        <a href="/portfolio" class="btn-ghost">See our work →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

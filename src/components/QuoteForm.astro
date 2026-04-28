@@ -17,6 +17,9 @@ const action = workerEndpoint || formspree || '#configure-form-endpoint';
   class="space-y-6"
   data-quote-form
 >
+  <input type="hidden" name="_next" value={`${import.meta.env.PUBLIC_SITE_URL || 'https://cumberlandsignworks.com'}/thank-you`} />
+  <input type="hidden" name="_subject" value="New Project Request — Cumberland Signworks" />
+
   <fieldset class="space-y-2">
     <legend class="block text-sm font-semibold text-cumberland-ink">
       What kind of project? <span class="text-cumberland-clay">*</span>
