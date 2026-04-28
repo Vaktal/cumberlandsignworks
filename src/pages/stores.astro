@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 
-const inkSoftUrl = import.meta.env.PUBLIC_INKSOFT_STORE_URL || '#inksoft-store';
+const inkSoftUrl = import.meta.env.PUBLIC_INKSOFT_STORE_URL || null;
 
 const useCases = [
   {
@@ -60,14 +60,17 @@ const checklistItems = [
       </p>
       <div class="mt-8 flex flex-wrap gap-4">
         <a href="/start-your-project" class="btn-primary">Set Up My Store</a>
-        <a
-          href={inkSoftUrl}
-          class="btn-secondary"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Browse the store →
-        </a>
+        {inkSoftUrl && (
+          <a
+            href={inkSoftUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Browse Cumberland Signworks stores on InkSoft (opens in new tab)"
+            class="btn-secondary"
+          >
+            Browse the store →
+          </a>
+        )}
       </div>
     </div>
   </section>
@@ -189,14 +192,17 @@ const checklistItems = [
       </p>
       <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
         <a href="/start-your-project" class="btn-primary">Set Up My Store</a>
-        <a
-          href={inkSoftUrl}
-          class="btn-secondary"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Browse existing stores →
-        </a>
+        {inkSoftUrl && (
+          <a
+            href={inkSoftUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Browse Cumberland Signworks stores on InkSoft (opens in new tab)"
+            class="btn-secondary"
+          >
+            Browse existing stores →
+          </a>
+        )}
       </div>
     </div>
   </section>
