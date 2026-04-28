@@ -1,7 +1,7 @@
 ---
-/**
- * Hero — homepage opener. Customer-as-hero promise + dual CTA.
- */
+import { Image } from 'astro:assets';
+import churchSign from '../assets/instagram/post-3-church-sign.jpg';
+import shopShirt from '../assets/instagram/post-1-shirts-hats-signs.jpg';
 ---
 
 <section class="relative overflow-hidden bg-cumberland-cream">
@@ -25,15 +25,21 @@
       </div>
       <ul class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-cumberland-stone">
         <li class="flex items-center gap-2">
-          <span aria-hidden="true">★</span>
+          <svg class="h-4 w-4 text-cumberland-clay shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
+          </svg>
           4.7 stars · 95+ reviews
         </li>
         <li class="flex items-center gap-2">
-          <span aria-hidden="true">🛠</span>
+          <svg class="h-4 w-4 text-cumberland-clay shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M11 3a1 1 0 1 0-2 0v1a1 1 0 1 0 2 0V3ZM6.293 6.707a1 1 0 0 0 1.414-1.414l-.707-.707a1 1 0 0 0-1.414 1.414l.707.707ZM3 11a1 1 0 1 0 0 2h1a1 1 0 1 0 0-2H3Zm.293-5.707.707.707A1 1 0 0 0 5.414 4.586l-.707-.707a1 1 0 0 0-1.414 1.414ZM16 10a6 6 0 1 1-12 0 6 6 0 0 1 12 0Zm1 0a1 1 0 1 0 0-2h-1a1 1 0 1 0 0 2h1Zm-5.293-5.707a1 1 0 1 0 1.414 1.414l.707-.707a1 1 0 0 0-1.414-1.414l-.707.707Z" />
+          </svg>
           In-house everything
         </li>
         <li class="flex items-center gap-2">
-          <span aria-hidden="true">🏠</span>
+          <svg class="h-4 w-4 text-cumberland-clay shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 0 0 .281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 15.57 17 13.213 17 10a7 7 0 1 0-14 0c0 3.213 1.698 5.57 3.355 7.185a13.193 13.193 0 0 0 2.273 1.765 11.142 11.142 0 0 0 1.039.574l.018.008.006.003ZM10 11.25a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5Z" clip-rule="evenodd" />
+          </svg>
           Locally owned, 23 years
         </li>
       </ul>
@@ -53,16 +59,33 @@
       </div>
     </div>
 
-    <div class="lg:col-span-5">
-      <!-- TODO: real photo. Direction: split frame — youth team in matching shirts (left) + wrapped service truck on Crossville job site (right). No stock. -->
-      <div
-        class="aspect-[4/5] w-full rounded-3xl bg-gradient-to-br from-cumberland-forest via-cumberland-forest-dark to-cumberland-ink p-8 text-cumberland-cream flex flex-col justify-end shadow-2xl"
-        role="img"
-        aria-label="Photo placeholder — team uniforms and wrapped service truck"
-      >
-        <p class="font-display text-4xl tracking-tighter leading-none">
-          One shop.<br />Everything printed,<br />stitched, wrapped,<br />or hung.
+    <!-- Real photos from the shop -->
+    <div class="lg:col-span-5 grid grid-cols-2 gap-3 items-end">
+      <div class="col-span-2 rounded-3xl overflow-hidden shadow-xl">
+        <Image
+          src={churchSign}
+          alt="Cumberland Fellowship church sign installed in Crossville, TN — made by Cumberland Signworks"
+          width={640}
+          height={480}
+          class="w-full h-56 md:h-72 object-cover"
+        />
+      </div>
+      <div class="rounded-2xl overflow-hidden shadow-md">
+        <Image
+          src={shopShirt}
+          alt="Homestead Elementary Field Day 2026 screen-printed shirts fresh off the press at Cumberland Signworks"
+          width={320}
+          height={320}
+          class="w-full h-40 object-cover"
+        />
+      </div>
+      <div class="rounded-2xl bg-cumberland-forest p-5 flex flex-col justify-between h-40">
+        <p class="font-display text-xl tracking-tighter leading-tight text-cumberland-cream">
+          1,000+ projects across Cumberland County.
         </p>
+        <a href="/portfolio" class="text-sm font-semibold text-cumberland-clay hover:text-cumberland-cream transition-colors">
+          See the work →
+        </a>
       </div>
     </div>
   </div>

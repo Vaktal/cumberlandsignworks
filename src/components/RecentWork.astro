@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import churchSign from '../assets/instagram/post-3-church-sign.jpg';
+import shopShirt from '../assets/instagram/post-1-shirts-hats-signs.jpg';
+---
+
+<section class="section bg-cumberland-cream">
+  <div class="container-rail">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
+      <div>
+        <p class="eyebrow">Fresh from the shop</p>
+        <h2 class="mt-3 text-cumberland-ink">What we've been making.</h2>
+      </div>
+      <a
+        href="https://www.instagram.com/cumberland.signworks/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm font-semibold text-cumberland-forest hover:text-cumberland-clay transition-colors shrink-0"
+        aria-label="Follow Cumberland Signworks on Instagram (opens in new tab)"
+      >
+        @cumberland.signworks →
+      </a>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Church sign — signs/storefront work -->
+      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist relative">
+        <div class="overflow-hidden">
+          <Image
+            src={churchSign}
+            alt="Cumberland Fellowship church sign installed by Cumberland Signworks in Crossville, TN"
+            width={600}
+            height={600}
+            class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+        <figcaption class="p-5">
+          <p class="font-semibold text-cumberland-ink text-sm leading-snug">Cumberland Fellowship — outdoor monument sign</p>
+          <p class="mt-1 text-xs text-cumberland-stone">Signage · Crossville, TN</p>
+        </figcaption>
+      </figure>
+
+      <!-- Field Day shirt — screen printing/apparel -->
+      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist relative">
+        <div class="overflow-hidden">
+          <Image
+            src={shopShirt}
+            alt="Homestead Elementary Field Day 2026 screen-printed shirts, fresh off the press at Cumberland Signworks"
+            width={600}
+            height={600}
+            class="w-full aspect-square object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+        <figcaption class="p-5">
+          <p class="font-semibold text-cumberland-ink text-sm leading-snug">Homestead Elementary — Field Day 2026 shirts</p>
+          <p class="mt-1 text-xs text-cumberland-stone">Screen printing · Rush order</p>
+        </figcaption>
+      </figure>
+
+      <!-- CTA tile -->
+      <div class="rounded-3xl bg-cumberland-forest p-8 flex flex-col justify-between min-h-[280px]">
+        <div>
+          <p class="eyebrow text-cumberland-clay">Your project</p>
+          <p class="mt-3 font-display text-3xl tracking-tighter text-cumberland-cream leading-tight">
+            Signs. Shirts.<br />Wraps. Hats.<br />All under one roof.
+          </p>
+        </div>
+        <a href="/start-your-project" class="btn-primary mt-6 self-start">
+          Start Your Project
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

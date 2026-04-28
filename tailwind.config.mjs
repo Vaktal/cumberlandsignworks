@@ -19,10 +19,8 @@ export default {
         },
       },
       fontFamily: {
-        // Pair: workmanlike sans + confident display.
-        // Lock real fonts after stakeholder review (e.g. Manrope + Bebas Neue).
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['"Bebas Neue"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Manrope Variable', 'Manrope', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"Bebas Neue"', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         tighter: '-0.04em',
