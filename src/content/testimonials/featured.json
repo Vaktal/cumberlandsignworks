@@ -1,0 +1,34 @@
+[
+  {
+    "quote": "They turned a last-minute jersey order around in three days — saved our season.",
+    "name": "Coach M.",
+    "role": "Local Youth League",
+    "service": "Team uniforms",
+    "source": "google",
+    "rating": 5
+  },
+  {
+    "quote": "The truck wrap looks better than I imagined. People stop me at gas stations to ask about it.",
+    "name": "Local HVAC Owner",
+    "role": "Crossville, TN",
+    "service": "Vehicle wrap",
+    "source": "facebook",
+    "rating": 5
+  },
+  {
+    "quote": "Our VBS shirts have been with Cumberland for six years running. Why would we go anywhere else?",
+    "name": "Crossville church group",
+    "role": "Repeat customer",
+    "service": "Apparel",
+    "source": "direct",
+    "rating": 5
+  },
+  {
+    "quote": "Banner showed up the day they said it would, looked exactly like the proof. Easy.",
+    "name": "Event organizer",
+    "role": "Cumberland County",
+    "service": "Banners",
+    "source": "google",
+    "rating": 5
+  }
+]

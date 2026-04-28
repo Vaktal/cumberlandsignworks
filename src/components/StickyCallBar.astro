@@ -1,0 +1,43 @@
+---
+/**
+ * StickyCallBar — mobile-only fixed bottom bar with click-to-call + CTA.
+ * Hidden on md+ where the header CTA is already visible.
+ */
+interface Props {
+  phone: string;
+  phoneTel: string;
+}
+const { phone, phoneTel } = Astro.props;
+---
+
+<div
+  class="fixed bottom-0 inset-x-0 z-30 md:hidden bg-cumberland-ink text-cumberland-cream shadow-[0_-4px_20px_rgba(0,0,0,0.15)]"
+>
+  <div class="grid grid-cols-2 divide-x divide-cumberland-stone/40">
+    <a
+      href={`tel:${phoneTel}`}
+      class="flex items-center justify-center gap-2 py-4 text-sm font-medium hover:bg-cumberland-forest/30"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="h-4 w-4"
+        aria-hidden="true"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M2 3.5A1.5 1.5 0 0 1 3.5 2h1.79c.71 0 1.34.45 1.56 1.13l.92 2.74a1.5 1.5 0 0 1-.4 1.55l-1.04 1.04a11.5 11.5 0 0 0 5.21 5.21l1.04-1.04a1.5 1.5 0 0 1 1.55-.4l2.74.92c.68.22 1.13.85 1.13 1.56v1.79a1.5 1.5 0 0 1-1.5 1.5h-.5C8.61 18 2 11.39 2 4v-.5Z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      Call {phone}
+    </a>
+    <a
+      href="/start-your-project"
+      class="flex items-center justify-center py-4 text-sm font-semibold bg-cumberland-clay text-white hover:bg-cumberland-clay-dark"
+    >
+      Start Your Project
+    </a>
+  </div>
+</div>

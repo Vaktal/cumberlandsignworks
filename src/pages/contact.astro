@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557';
+const phoneTel = import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557';
+const email = import.meta.env.PUBLIC_BUSINESS_EMAIL || 'hello@cumberlandsignworks.com';
+const address = import.meta.env.PUBLIC_BUSINESS_ADDRESS || '474 Hyder Ridge Rd, Crossville, TN 38555';
+---
+
+<BaseLayout
+  title="Contact Cumberland Signworks — Crossville, TN"
+  description="Visit, call, or message Cumberland Signworks — your local print shop in Crossville, Tennessee since 2003. Mon–Fri 9–4."
+>
+  <section class="section bg-cumberland-cream">
+    <div class="container-rail max-w-4xl">
+      <p class="eyebrow">We're easy to reach</p>
+      <h1 class="mt-4 text-cumberland-ink">Real humans. Same shop. 23 years.</h1>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-2">
+        <div class="rounded-3xl bg-white border border-cumberland-mist p-8">
+          <h2 class="font-display text-2xl text-cumberland-ink">Stop by</h2>
+          <p class="mt-3 text-cumberland-stone">{address}</p>
+          <p class="mt-4 text-sm">
+            <strong class="text-cumberland-ink">Hours:</strong>
+            <br />
+            Monday–Friday · 9:00 AM – 4:00 PM
+          </p>
+        </div>
+
+        <div class="rounded-3xl bg-white border border-cumberland-mist p-8">
+          <h2 class="font-display text-2xl text-cumberland-ink">Reach out</h2>
+          <p class="mt-3">
+            <a href={`tel:${phoneTel}`} class="text-cumberland-forest hover:underline font-semibold">
+              {phone}
+            </a>
+          </p>
+          <p class="mt-2">
+            <a href={`mailto:${email}`} class="text-cumberland-forest hover:underline">
+              {email}
+            </a>
+          </p>
+          <a href="/start-your-project" class="btn-primary mt-6 inline-flex">Start Your Project</a>
+        </div>
+      </div>
+
+      <!-- TODO: embed Google Map of 474 Hyder Ridge Rd, Crossville, TN -->
+      <div
+        class="mt-12 aspect-video w-full rounded-3xl bg-cumberland-mist/60 flex items-center justify-center text-cumberland-stone"
+      >
+        <p class="text-sm">Map placeholder — Google Maps embed of 474 Hyder Ridge Rd</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

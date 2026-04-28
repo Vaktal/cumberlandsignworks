@@ -1,0 +1,129 @@
+---
+/**
+ * BaseLayout — site-wide shell.
+ *
+ * Props:
+ *   title       — page <title> (required)
+ *   description — meta description (required)
+ *   ogImage     — absolute URL or path to og image
+ *   noIndex     — set true for thank-you / utility pages
+ */
+import '../styles/global.css';
+import { SEO } from 'astro-seo';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import StickyCallBar from '@components/StickyCallBar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og-default.png',
+  noIndex = false,
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://cumberlandsignworks.com';
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557';
+const phoneTel = import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557';
+const address = import.meta.env.PUBLIC_BUSINESS_ADDRESS || '474 Hyder Ridge Rd, Crossville, TN 38555';
+
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Cumberland Signworks',
+  image: `${siteUrl}/og-default.png`,
+  '@id': siteUrl,
+  url: siteUrl,
+  telephone: phoneTel,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '474 Hyder Ridge Rd',
+    addressLocality: 'Crossville',
+    addressRegion: 'TN',
+    postalCode: '38555',
+    addressCountry: 'US',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 35.9489,
+    longitude: -85.0269,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '16:00',
+    },
+  ],
+  sameAs: [
+    'https://www.facebook.com/CumberlandSignworks/',
+    'https://www.instagram.com/cumberland.signworks/',
+  ],
+  description:
+    'Custom signs, t-shirts, hats, banners, vehicle wraps, and embroidery in Crossville, TN. Family-owned since 2003.',
+  priceRange: '$$',
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <SEO
+      title={title}
+      description={description}
+      canonical={new URL(Astro.url.pathname, siteUrl).toString()}
+      noindex={noIndex}
+      openGraph={{
+        basic: {
+          title,
+          type: 'website',
+          image: new URL(ogImage, siteUrl).toString(),
+          url: new URL(Astro.url.pathname, siteUrl).toString(),
+        },
+        optional: {
+          siteName: 'Cumberland Signworks',
+          description,
+          locale: 'en_US',
+        },
+      }}
+      twitter={{
+        card: 'summary_large_image',
+      }}
+    />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(localBusinessSchema)}
+    />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-cumberland-ink focus:text-white focus:px-4 focus:py-2 focus:rounded"
+    >
+      Skip to content
+    </a>
+
+    <Header />
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <StickyCallBar phone={phone} phoneTel={phoneTel} />
+  </body>
+</html>

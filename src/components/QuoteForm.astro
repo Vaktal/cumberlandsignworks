@@ -1,0 +1,159 @@
+---
+/**
+ * QuoteForm — the only form on the site.
+ * Posts to either Formspree or a Cloudflare Worker (env-driven).
+ * Anti-spam: Cloudflare Turnstile.
+ */
+const formspree = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT;
+const workerEndpoint = import.meta.env.PUBLIC_QUOTE_ENDPOINT;
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const action = workerEndpoint || formspree || '#configure-form-endpoint';
+---
+
+<form
+  action={action}
+  method="POST"
+  enctype="multipart/form-data"
+  class="space-y-6"
+  data-quote-form
+>
+  <fieldset class="space-y-2">
+    <legend class="block text-sm font-semibold text-cumberland-ink">
+      What kind of project? <span class="text-cumberland-clay">*</span>
+    </legend>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      {
+        ['Apparel', 'Signs', 'Vehicle Wraps', 'Print'].map((type) => (
+          <label class="cursor-pointer">
+            <input
+              type="checkbox"
+              name="project_type"
+              value={type}
+              class="peer sr-only"
+            />
+            <span
+              class="block text-center px-4 py-3 rounded-xl border-2 border-cumberland-mist bg-white text-sm font-medium transition-colors peer-checked:border-cumberland-forest peer-checked:bg-cumberland-forest peer-checked:text-white"
+            >
+              {type}
+            </span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <div>
+    <label for="quantity" class="block text-sm font-semibold text-cumberland-ink">
+      Quantity / size
+    </label>
+    <input
+      type="text"
+      id="quantity"
+      name="quantity"
+      placeholder="e.g. 50 t-shirts, 4x8ft banner, full F-150 wrap"
+      class="mt-2 w-full rounded-xl border-2 border-cumberland-mist bg-white px-4 py-3 focus:border-cumberland-forest"
+    />
+  </div>
+
+  <div>
+    <label for="needed_by" class="block text-sm font-semibold text-cumberland-ink">
+      When do you need it?
+    </label>
+    <input
+      type="text"
+      id="needed_by"
+      name="needed_by"
+      placeholder="e.g. season opener Sept 13 / ASAP / flexible"
+      class="mt-2 w-full rounded-xl border-2 border-cumberland-mist bg-white px-4 py-3 focus:border-cumberland-forest"
+    />
+  </div>
+
+  <div>
+    <label for="artwork" class="block text-sm font-semibold text-cumberland-ink">
+      Got artwork? (optional)
+    </label>
+    <input
+      type="file"
+      id="artwork"
+      name="artwork"
+      accept=".jpg,.jpeg,.png,.pdf,.ai,.eps,.svg"
+      class="mt-2 block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-cumberland-forest file:text-white hover:file:bg-cumberland-forest-dark"
+    />
+    <p class="mt-1 text-xs text-cumberland-stone">
+      No artwork? No problem — we'll help you figure it out.
+    </p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-4">
+    <div>
+      <label for="name" class="block text-sm font-semibold text-cumberland-ink">
+        Name <span class="text-cumberland-clay">*</span>
+      </label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        class="mt-2 w-full rounded-xl border-2 border-cumberland-mist bg-white px-4 py-3 focus:border-cumberland-forest"
+      />
+    </div>
+    <div>
+      <label for="organization" class="block text-sm font-semibold text-cumberland-ink">
+        Business / Team / Church
+      </label>
+      <input
+        type="text"
+        id="organization"
+        name="organization"
+        class="mt-2 w-full rounded-xl border-2 border-cumberland-mist bg-white px-4 py-3 focus:border-cumberland-forest"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label for="contact" class="block text-sm font-semibold text-cumberland-ink">
+      Best phone or email <span class="text-cumberland-clay">*</span>
+    </label>
+    <input
+      type="text"
+      id="contact"
+      name="contact"
+      required
+      class="mt-2 w-full rounded-xl border-2 border-cumberland-mist bg-white px-4 py-3 focus:border-cumberland-forest"
+    />
+  </div>
+
+  {/* Honeypot */}
+  <input
+    type="text"
+    name="website"
+    tabindex="-1"
+    autocomplete="off"
+    class="absolute left-[-9999px]"
+    aria-hidden="true"
+  />
+
+  {
+    turnstileKey && (
+      <div class="cf-turnstile" data-sitekey={turnstileKey} />
+    )
+  }
+
+  <button type="submit" class="btn-primary w-full text-base md:text-lg">
+    Send My Project
+  </button>
+
+  <p class="text-xs text-cumberland-stone text-center">
+    We reply within 24 hours, Mon–Fri. Most quotes go out the same day.
+  </p>
+</form>
+
+{
+  turnstileKey && (
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    />
+  )
+}

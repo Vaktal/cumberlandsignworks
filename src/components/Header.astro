@@ -1,0 +1,50 @@
+---
+/**
+ * Header — sticky top nav.
+ * Single dominant CTA: Start Your Project.
+ */
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557';
+const phoneTel = import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557';
+
+const navLinks = [
+  { label: 'Apparel', href: '/apparel' },
+  { label: 'Signs', href: '/signs' },
+  { label: 'Vehicle Wraps', href: '/vehicle-wraps' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'About', href: '/about' },
+];
+---
+
+<header class="sticky top-0 z-40 bg-cumberland-cream/95 backdrop-blur border-b border-cumberland-mist">
+  <div class="container-rail flex items-center justify-between gap-6 py-4">
+    <a href="/" class="flex items-center gap-2 font-display text-2xl tracking-tighter">
+      <span class="text-cumberland-forest">Cumberland</span>
+      <span class="text-cumberland-clay">Signworks</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium" aria-label="Primary">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-cumberland-ink hover:text-cumberland-forest transition-colors"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href={`tel:${phoneTel}`}
+        class="hidden lg:inline text-sm font-medium text-cumberland-ink hover:text-cumberland-forest"
+      >
+        {phone}
+      </a>
+      <a href="/start-your-project" class="btn-primary text-sm md:text-base">
+        Start Your Project
+      </a>
+    </div>
+  </div>
+</header>

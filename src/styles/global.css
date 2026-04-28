@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --container-px: 1.5rem;
+  }
+
+  html {
+    @apply bg-cumberland-cream text-cumberland-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+  }
+
+  body {
+    @apply min-h-dvh flex flex-col font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tighter;
+    text-wrap: balance;
+  }
+
+  h1 {
+    @apply text-4xl md:text-6xl lg:text-7xl leading-[0.95];
+  }
+
+  h2 {
+    @apply text-3xl md:text-5xl leading-[1.05];
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl leading-tight;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-cumberland-clay ring-offset-2 ring-offset-cumberland-cream;
+  }
+}
+
+@layer components {
+  .container-rail {
+    @apply max-w-6xl mx-auto px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-semibold transition-colors duration-200 focus-visible:ring-offset-cumberland-cream;
+  }
+
+  .btn-primary {
+    @apply btn bg-cumberland-clay text-white hover:bg-cumberland-clay-dark;
+  }
+
+  .btn-secondary {
+    @apply btn bg-transparent text-cumberland-forest border-2 border-cumberland-forest hover:bg-cumberland-forest hover:text-white;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-cumberland-ink underline underline-offset-4 hover:text-cumberland-forest;
+  }
+
+  .eyebrow {
+    @apply text-xs uppercase tracking-[0.2em] font-semibold text-cumberland-clay;
+  }
+
+  .section {
+    @apply py-16 md:py-24;
+  }
+}

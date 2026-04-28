@@ -1,0 +1,99 @@
+# Decap CMS — Cumberland Signworks
+#
+# Auth: GitHub OAuth via decap-server / Cloudflare Pages OAuth proxy.
+# Update `backend.repo` once the repo is created on GitHub.
+# For Cloudflare Pages, swap `backend.name` to `git-gateway` if using Netlify Identity,
+# or stick with `github` and deploy a tiny OAuth Worker.
+
+backend:
+  name: github
+  repo: vaktal/cumberlandsignworks # TODO: update to actual GitHub org/repo
+  branch: main
+  base_url: https://cumberlandsignworks.com # TODO: update once OAuth proxy is live
+  auth_endpoint: /api/auth
+
+publish_mode: editorial_workflow
+
+media_folder: src/assets/uploads
+public_folder: /assets/uploads
+
+site_url: https://cumberlandsignworks.com
+display_url: https://cumberlandsignworks.com
+logo_url: /favicon.svg
+
+collections:
+  - name: services
+    label: Services
+    folder: src/content/services
+    create: true
+    slug: '{{slug}}'
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Slug, name: slug, widget: string, required: false }
+      - { label: Summary, name: summary, widget: text }
+      - {
+          label: Category,
+          name: category,
+          widget: select,
+          options: [apparel, signs, vehicle-wraps, print],
+        }
+      - { label: Hero Image, name: heroImage, widget: image, required: false }
+      - {
+          label: Bullets,
+          name: bullets,
+          widget: list,
+          required: false,
+          field: { label: Bullet, name: bullet, widget: string },
+        }
+      - { label: Order, name: order, widget: number, default: 99, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: portfolio
+    label: Portfolio
+    folder: src/content/portfolio
+    create: true
+    slug: '{{year}}-{{month}}-{{slug}}'
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Client, name: client, widget: string }
+      - { label: Service Type, name: serviceType, widget: string }
+      - { label: Date, name: date, widget: datetime }
+      - { label: Hero Image, name: heroImage, widget: image }
+      - {
+          label: Gallery,
+          name: gallery,
+          widget: list,
+          required: false,
+          field: { label: Image, name: image, widget: image },
+        }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: testimonials
+    label: Testimonials
+    files:
+      - name: featured
+        label: Featured Testimonials
+        file: src/content/testimonials/featured.json
+        format: json
+        fields:
+          - label: Testimonials
+            name: testimonials
+            widget: list
+            fields:
+              - { label: Quote, name: quote, widget: text }
+              - { label: Name, name: name, widget: string }
+              - { label: Role, name: role, widget: string }
+              - { label: Service, name: service, widget: string, required: false }
+              - {
+                  label: Source,
+                  name: source,
+                  widget: select,
+                  options: [google, facebook, birdeye, direct],
+                  required: false,
+                }
+              - { label: Rating, name: rating, widget: number, default: 5, min: 1, max: 5 }

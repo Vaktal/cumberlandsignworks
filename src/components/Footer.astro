@@ -1,0 +1,57 @@
+---
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557';
+const phoneTel = import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557';
+const email = import.meta.env.PUBLIC_BUSINESS_EMAIL || 'hello@cumberlandsignworks.com';
+const address = import.meta.env.PUBLIC_BUSINESS_ADDRESS || '474 Hyder Ridge Rd, Crossville, TN 38555';
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-cumberland-ink text-cumberland-cream pt-16 pb-24 md:pb-12">
+  <div class="container-rail grid gap-12 md:grid-cols-4">
+    <div class="md:col-span-2 max-w-md">
+      <p class="font-display text-3xl tracking-tighter">
+        <span class="text-cumberland-clay">Cumberland</span>
+        <span>Signworks</span>
+      </p>
+      <p class="mt-4 text-sm leading-relaxed text-cumberland-mist">
+        Helping schools, teams, churches, and local businesses across the Upper
+        Cumberland show up looking like pros — with signs, shirts, hats, and
+        vehicle wraps designed and delivered fast, right here in Crossville.
+      </p>
+      <a href="/start-your-project" class="btn-primary mt-6">Start Your Project</a>
+    </div>
+
+    <div>
+      <h2 class="text-xs uppercase tracking-[0.2em] font-semibold text-cumberland-clay">Visit</h2>
+      <address class="mt-3 not-italic text-sm leading-relaxed">
+        {address}<br />
+        Mon–Fri 9:00 AM – 4:00 PM
+      </address>
+      <p class="mt-3 text-sm">
+        <a href={`tel:${phoneTel}`} class="hover:text-cumberland-clay">{phone}</a>
+        <br />
+        <a href={`mailto:${email}`} class="hover:text-cumberland-clay">{email}</a>
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-xs uppercase tracking-[0.2em] font-semibold text-cumberland-clay">Services</h2>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li><a href="/apparel" class="hover:text-cumberland-clay">Apparel & embroidery</a></li>
+        <li><a href="/signs" class="hover:text-cumberland-clay">Signs & banners</a></li>
+        <li><a href="/vehicle-wraps" class="hover:text-cumberland-clay">Vehicle wraps</a></li>
+        <li><a href="/print" class="hover:text-cumberland-clay">Business cards & print</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div
+    class="container-rail mt-12 pt-6 border-t border-cumberland-stone/40 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-cumberland-mist"
+  >
+    <p>© {year} Cumberland Signworks, LLC. Locally owned in Crossville, TN since 2003.</p>
+    <div class="flex gap-4">
+      <a href="https://www.facebook.com/CumberlandSignworks/" class="hover:text-cumberland-clay">Facebook</a>
+      <a href="https://www.instagram.com/cumberland.signworks/" class="hover:text-cumberland-clay">Instagram</a>
+    </div>
+  </div>
+</footer>

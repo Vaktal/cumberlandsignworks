@@ -1,0 +1,61 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import QuoteForm from '@components/QuoteForm.astro';
+---
+
+<BaseLayout
+  title="Start Your Project — Cumberland Signworks"
+  description="Tell us what you need. We design, quote, and deliver fast — in Crossville, TN. Free proof. Honest timeline. Friendly humans."
+>
+  <section class="section bg-cumberland-cream">
+    <div class="container-rail grid gap-12 lg:gap-16 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow">Step 1 of 3</p>
+        <h1 class="mt-4 text-cumberland-ink">Tell us what you need.</h1>
+        <p class="mt-6 text-lg leading-relaxed text-cumberland-stone">
+          Don't worry if you don't have artwork yet. Don't worry if you're not
+          sure what size or how many. Tell us as much as you know, and we'll
+          take it from there.
+        </p>
+
+        <ol class="mt-10 space-y-4 text-cumberland-ink">
+          <li class="flex gap-4">
+            <span class="font-display text-2xl text-cumberland-clay leading-none">1.</span>
+            <div>
+              <p class="font-semibold">Tell us what you need.</p>
+              <p class="text-sm text-cumberland-stone">You're here.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="font-display text-2xl text-cumberland-stone leading-none">2.</span>
+            <div>
+              <p class="font-semibold">We design and quote — fast.</p>
+              <p class="text-sm text-cumberland-stone">Free proof, usually within 24–48 hours.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="font-display text-2xl text-cumberland-stone leading-none">3.</span>
+            <div>
+              <p class="font-semibold">You get it on time, looking right.</p>
+              <p class="text-sm text-cumberland-stone">Delivered or installed.</p>
+            </div>
+          </li>
+        </ol>
+
+        <p class="mt-10 text-sm text-cumberland-stone">
+          Prefer to talk first? Call
+          <a href={`tel:${import.meta.env.PUBLIC_BUSINESS_PHONE}`} class="text-cumberland-forest font-semibold hover:underline">
+            {import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557'}
+          </a>
+          — Mon–Fri 9–4.
+        </p>
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="rounded-3xl bg-white border border-cumberland-mist p-8 md:p-10 shadow-sm">
+          <QuoteForm />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
