@@ -1,0 +1,182 @@
+---
+/**
+ * ServicePageLayout — shared shell for every service page.
+ *
+ * All service MDX files render through this layout. It wraps BaseLayout,
+ * adds breadcrumbs, renders MDX content in a prose column, and shows a
+ * sticky sidebar with feature bullets + CTA card.
+ *
+ * Props:
+ *   title     — page title; also passed to <BaseLayout>
+ *   summary   — meta description
+ *   category  — 'apparel' | 'signs' | 'vehicle-wraps' | 'print'
+ *   bullets   — optional feature list for sidebar "What's included" card
+ *   class     — additional classes merged onto the <article> wrapper
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CTASection from '@components/CTASection.astro';
+
+interface Props {
+  title: string;
+  summary: string;
+  category: string;
+  bullets?: string[];
+  class?: string;
+}
+
+const {
+  title,
+  summary,
+  category,
+  bullets = [],
+  class: className = '',
+} = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  apparel: 'Apparel & Embroidery',
+  signs: 'Signs & Banners',
+  'vehicle-wraps': 'Vehicle Wraps',
+  print: 'Business Print',
+};
+
+const categoryHref: Record<string, string> = {
+  apparel: '/apparel',
+  signs: '/signs',
+  'vehicle-wraps': '/vehicle-wraps',
+  print: '/print',
+};
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557';
+const phoneTel = import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557';
+
+const categoryLabel = categoryLabels[category] ?? category;
+const catHref = categoryHref[category] ?? `/${category}`;
+---
+
+<BaseLayout title={`${title} — Cumberland Signworks`} description={summary}>
+  <!-- Breadcrumb bar -->
+  <nav
+    aria-label="Breadcrumb"
+    class="bg-cumberland-mist/40 border-b border-cumberland-mist"
+  >
+    <ol
+      class="container-rail flex items-center gap-2 py-3 text-sm text-cumberland-stone"
+    >
+      <li>
+        <a
+          href="/"
+          class="hover:text-cumberland-forest transition-colors"
+        >
+          Home
+        </a>
+      </li>
+      <li aria-hidden="true" class="select-none">&rsaquo;</li>
+      <li>
+        <a
+          href={catHref}
+          class="hover:text-cumberland-forest transition-colors"
+        >
+          {categoryLabel}
+        </a>
+      </li>
+      <li aria-hidden="true" class="select-none">&rsaquo;</li>
+      <li class="text-cumberland-ink font-medium truncate" aria-current="page">
+        {title}
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Main content area -->
+  <article class={`section bg-cumberland-cream ${className}`}>
+    <div class="container-rail">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+        <!-- Col 1–8: MDX prose content -->
+        <div
+          class="lg:col-span-8 prose prose-lg max-w-none
+            prose-headings:font-display prose-headings:tracking-tighter
+            prose-h1:text-cumberland-ink prose-h2:text-cumberland-ink prose-h3:text-cumberland-ink
+            prose-p:text-cumberland-stone prose-li:text-cumberland-stone
+            prose-strong:text-cumberland-ink
+            prose-a:text-cumberland-forest prose-a:no-underline hover:prose-a:underline"
+        >
+          <slot />
+        </div>
+
+        <!-- Col 9–12: Sticky sidebar -->
+        <aside class="lg:col-span-4 flex flex-col gap-6 sticky top-24">
+
+          <!-- What's included card (only if bullets provided) -->
+          {bullets.length > 0 && (
+            <div class="rounded-2xl bg-white border border-cumberland-mist p-6 shadow-sm">
+              <p class="eyebrow mb-4">What's included</p>
+              <ul class="flex flex-col gap-3" role="list">
+                {bullets.map((bullet) => (
+                  <li class="flex items-start gap-3 text-sm text-cumberland-stone leading-snug">
+                    <!-- Checkmark icon -->
+                    <svg
+                      class="mt-0.5 h-4 w-4 flex-shrink-0 text-cumberland-forest"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <!-- CTA card (always shown) -->
+          <div class="rounded-2xl bg-cumberland-forest text-cumberland-cream p-6 shadow-sm">
+            <p class="eyebrow mb-3 text-cumberland-clay">Ready to start?</p>
+            <p class="text-cumberland-cream font-semibold text-lg leading-snug mb-2">
+              Free proof. Fast quote.
+            </p>
+            <p class="text-cumberland-mist text-sm mb-6">
+              Usually within 24–48 hours. Tell us what you need — artwork help included.
+            </p>
+            <a
+              href="/start-your-project"
+              class="btn bg-cumberland-clay text-white hover:bg-cumberland-clay-dark w-full text-center mb-4"
+            >
+              Start Your Project
+            </a>
+            <a
+              href={`tel:${phoneTel}`}
+              class="flex items-center justify-center gap-2 text-sm text-cumberland-mist hover:text-cumberland-cream transition-colors"
+              aria-label={`Call us at ${phone}`}
+            >
+              <!-- Phone icon -->
+              <svg
+                class="h-4 w-4 flex-shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2 3.5A1.5 1.5 0 0 1 3.5 2h1.148a1.5 1.5 0 0 1 1.465 1.175l.716 3.223a1.5 1.5 0 0 1-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 0 0 6.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 0 1 1.767-1.052l3.223.716A1.5 1.5 0 0 1 18 15.352V16.5a1.5 1.5 0 0 1-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 0 1 2.43 8.326 13.019 13.019 0 0 1 2 5V3.5Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span>{phone}</span>
+            </a>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  </article>
+
+  <!-- Bottom CTA section -->
+  <CTASection />
+</BaseLayout>
