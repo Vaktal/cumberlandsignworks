@@ -100,9 +100,8 @@ const navLinks = [
   <div
     id="mobile-menu"
     class="hidden md:hidden border-t border-cumberland-mist bg-cumberland-cream"
-    aria-label="Mobile navigation"
   >
-    <nav class="container-rail py-4 flex flex-col gap-1">
+    <nav class="container-rail py-4 flex flex-col gap-1" aria-label="Mobile navigation">
       {
         navLinks.map((link) => (
           <a
@@ -131,6 +130,9 @@ const navLinks = [
 
 <script is:inline>
   (function () {
+    if (document.body.hasAttribute('data-header-init')) return;
+    document.body.setAttribute('data-header-init', '');
+
     var toggle = document.getElementById('mobile-menu-toggle');
     var menu = document.getElementById('mobile-menu');
     var iconOpen = document.getElementById('icon-open');
