@@ -52,6 +52,9 @@ export async function createNotionEntry(
     throw new Error(`Notion API ${res.status}: ${err}`)
   }
 
-  const page = await res.json() as { url: string }
+  const page = await res.json() as Record<string, unknown>
+  if (typeof page.url !== 'string' || !page.url) {
+    throw new Error(`Notion returned a page without a URL (id: ${String(page.id ?? 'unknown')})`)
+  }
   return page.url
 }

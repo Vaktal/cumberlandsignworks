@@ -1,5 +1,7 @@
 import type { QuoteFields } from './notion'
 
+const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024 // 10 MB — well below Resend's 40 MB limit
+
 export async function sendQuoteEmail(opts: {
   fields: QuoteFields
   artworkFile: File | null
@@ -10,11 +12,7 @@ export async function sendQuoteEmail(opts: {
 }): Promise<void> {
   const { fields, artworkFile, notionUrl, apiKey, from, to } = opts
 
-  const subject = [
-    'New project request —',
-    fields.name,
-    fields.organization ? `, ${fields.organization}` : '',
-  ].join('')
+  const subject = `New project request — ${fields.name}${fields.organization ? `, ${fields.organization}` : ''}`
 
   const rows = [
     ['Name', fields.name],
@@ -36,7 +34,7 @@ export async function sendQuoteEmail(opts: {
     .join('')
 
   const notionLink = notionUrl
-    ? `<p style="margin-top:20px"><a href="${notionUrl}" style="color:#111111">View in Notion →</a></p>`
+    ? `<p style="margin-top:20px"><a href="${esc(notionUrl)}" style="color:#111111">View in Notion →</a></p>`
     : ''
 
   const html = `
@@ -47,18 +45,20 @@ export async function sendQuoteEmail(opts: {
   ${notionLink}
 </div>`
 
-  const payload: Record<string, unknown> = {
-    from,
-    to: [to],
-    reply_to: fields.contact.includes('@') ? fields.contact : undefined,
-    subject,
-    html,
+  const payload: Record<string, unknown> = { from, to: [to], subject, html }
+  if (fields.contact.includes('@')) {
+    payload.reply_to = fields.contact
   }
 
-  if (artworkFile && artworkFile.size > 0) {
+  if (artworkFile && artworkFile.size > 0 && artworkFile.size <= MAX_ATTACHMENT_BYTES) {
     const bytes = await artworkFile.arrayBuffer()
-    const b64 = btoa(String.fromCharCode(...new Uint8Array(bytes)))
-    payload.attachments = [{ filename: artworkFile.name, content: b64 }]
+    const uint8 = new Uint8Array(bytes)
+    let binary = ''
+    const CHUNK = 8192
+    for (let i = 0; i < uint8.length; i += CHUNK) {
+      binary += String.fromCharCode(...uint8.subarray(i, i + CHUNK))
+    }
+    payload.attachments = [{ filename: artworkFile.name, content: btoa(binary) }]
   }
 
   const res = await fetch('https://api.resend.com/emails', {
