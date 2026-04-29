@@ -4,6 +4,8 @@ dist/
 
 # dependencies
 node_modules/
+**/node_modules/
+workers/quote-handler/.wrangler/
 .pnpm-store/
 
 # logs
