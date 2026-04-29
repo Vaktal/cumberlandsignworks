@@ -25,7 +25,7 @@ export default {
     }
 
     if (request.method !== 'POST') {
-      return new Response('Method not allowed', { status: 405 })
+      return new Response('Method not allowed', { status: 405, headers: corsHeaders })
     }
 
     let form: FormData
@@ -107,6 +107,6 @@ function json(
 ): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json', ...headers },
+    headers: { ...headers, 'Content-Type': 'application/json' },
   })
 }
