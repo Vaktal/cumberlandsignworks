@@ -8,14 +8,14 @@ export default {
       // Cuts through a market saturated with red/blue/black sign shops.
       colors: {
         cumberland: {
-          ink: '#1A1A1A',          // near-black for body text
-          cream: '#FAF7F2',         // warm off-white background
-          forest: '#1F4E3D',        // primary brand color (deep forest green)
-          'forest-dark': '#163A2D', // hover / pressed
-          clay: '#D97842',          // accent — warm CTA orange
-          'clay-dark': '#B85F2D',   // hover for clay
-          stone: '#6B7280',         // muted text
-          mist: '#E8E4DC',          // subtle borders / dividers
+          ink: '#111111',
+          cream: '#FFFFFF',
+          forest: '#111111',
+          'forest-dark': '#000000',
+          clay: '#111111',
+          'clay-dark': '#000000',
+          stone: '#6B7280',
+          mist: '#E5E5E5',
         },
       },
       fontFamily: {

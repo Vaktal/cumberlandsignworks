@@ -2,6 +2,9 @@
 import { Image } from 'astro:assets';
 import churchSign from '../assets/instagram/post-3-church-sign.jpg';
 import shopShirt from '../assets/instagram/post-1-shirts-hats-signs.jpg';
+import tommysHats from '../assets/photos/tommys-motorsports-hats-pair.jpg';
+import selkSign from '../assets/photos/selk-pressure-washing-sign.jpg';
+import ahRobertsDoors from '../assets/photos/ah-roberts-doors-decals.jpg';
 ---
 
 <section class="section bg-cumberland-cream">
@@ -23,8 +26,8 @@ import shopShirt from '../assets/instagram/post-1-shirts-hats-signs.jpg';
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- Church sign — signs/storefront work -->
-      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist relative">
+      <!-- Church sign — outdoor monument sign -->
+      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist">
         <div class="overflow-hidden">
           <Image
             src={churchSign}
@@ -40,15 +43,15 @@ import shopShirt from '../assets/instagram/post-1-shirts-hats-signs.jpg';
         </figcaption>
       </figure>
 
-      <!-- Field Day shirt — screen printing/apparel -->
-      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist relative">
+      <!-- Field Day shirt — screen printing -->
+      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist">
         <div class="overflow-hidden">
           <Image
             src={shopShirt}
             alt="Homestead Elementary Field Day 2026 screen-printed shirts, fresh off the press at Cumberland Signworks"
             width={600}
             height={600}
-            class="w-full aspect-square object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
         <figcaption class="p-5">
@@ -57,10 +60,61 @@ import shopShirt from '../assets/instagram/post-1-shirts-hats-signs.jpg';
         </figcaption>
       </figure>
 
+      <!-- Tommy's Motorsports hats — embroidery -->
+      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist">
+        <div class="overflow-hidden">
+          <Image
+            src={tommysHats}
+            alt="Tommy's Motorsports Crossville embroidered trucker hats made by Cumberland Signworks"
+            width={600}
+            height={600}
+            class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+        <figcaption class="p-5">
+          <p class="font-semibold text-cumberland-ink text-sm leading-snug">Tommy's Motorsports — embroidered hats</p>
+          <p class="mt-1 text-xs text-cumberland-stone">Embroidery · Crossville, TN</p>
+        </figcaption>
+      </figure>
+
+      <!-- Selk Pressure Washing sign — outdoor business sign -->
+      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist">
+        <div class="overflow-hidden">
+          <Image
+            src={selkSign}
+            alt="Selk Pressure Washing & Roof Cleaning outdoor business sign made by Cumberland Signworks"
+            width={600}
+            height={600}
+            class="w-full aspect-square object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+        <figcaption class="p-5">
+          <p class="font-semibold text-cumberland-ink text-sm leading-snug">Selk Pressure Washing — outdoor business sign</p>
+          <p class="mt-1 text-xs text-cumberland-stone">Signage · Upper Cumberland</p>
+        </figcaption>
+      </figure>
+
+      <!-- AH Roberts doors — window graphics / decals -->
+      <figure class="group rounded-3xl overflow-hidden bg-cumberland-mist">
+        <div class="overflow-hidden">
+          <Image
+            src={ahRobertsDoors}
+            alt="A.H. Roberts Elementary School front doors with custom window decals installed by Cumberland Signworks"
+            width={600}
+            height={600}
+            class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+        <figcaption class="p-5">
+          <p class="font-semibold text-cumberland-ink text-sm leading-snug">A.H. Roberts Elementary — door & window decals</p>
+          <p class="mt-1 text-xs text-cumberland-stone">Window graphics · Crossville, TN</p>
+        </figcaption>
+      </figure>
+
       <!-- CTA tile -->
       <div class="rounded-3xl bg-cumberland-forest p-8 flex flex-col justify-between min-h-[280px]">
         <div>
-          <p class="eyebrow text-cumberland-clay">Your project</p>
+          <p class="eyebrow text-cumberland-stone">Your project</p>
           <p class="mt-3 font-display text-3xl tracking-tighter text-cumberland-cream leading-tight">
             Signs. Shirts.<br />Wraps. Hats.<br />All under one roof.
           </p>
