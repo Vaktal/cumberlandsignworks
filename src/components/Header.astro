@@ -1,9 +1,7 @@
 ---
-/**
- * Header — sticky top nav with mobile hamburger menu.
- * Single dominant CTA: Start Your Project.
- * WCAG 2.1 AA: keyboard-navigable, visible focus rings, aria-expanded.
- */
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557';
 const phoneTel = import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557';
 
@@ -20,9 +18,13 @@ const navLinks = [
 <header class="sticky top-0 z-40 bg-cumberland-cream/95 backdrop-blur border-b border-cumberland-mist">
   <div class="container-rail flex items-center justify-between gap-6 py-4">
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 font-display text-2xl tracking-tighter">
-      <span class="text-cumberland-forest">Cumberland</span>
-      <span class="text-cumberland-clay">Signworks</span>
+    <a href="/" class="flex items-center shrink-0">
+      <Image
+        src={logo}
+        alt="Cumberland Signworks"
+        height={44}
+        class="h-11 w-auto"
+      />
     </a>
 
     <!-- Desktop nav -->

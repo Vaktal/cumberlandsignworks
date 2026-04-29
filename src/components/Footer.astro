@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE_DISPLAY || '(931) 707-0557';
 const phoneTel = import.meta.env.PUBLIC_BUSINESS_PHONE || '+19317070557';
 const email = import.meta.env.PUBLIC_BUSINESS_EMAIL || 'hello@cumberlandsignworks.com';
@@ -9,10 +12,13 @@ const year = new Date().getFullYear();
 <footer class="bg-cumberland-ink text-cumberland-cream pt-16 pb-24 md:pb-12">
   <div class="container-rail grid gap-12 md:grid-cols-4">
     <div class="md:col-span-2 max-w-md">
-      <p class="font-display text-3xl tracking-tighter">
-        <span class="text-cumberland-mist">Cumberland</span>
-        <span>Signworks</span>
-      </p>
+      <Image
+        src={logo}
+        alt="Cumberland Signworks"
+        height={56}
+        class="h-14 w-auto"
+        style="filter: invert(1)"
+      />
       <p class="mt-4 text-sm leading-relaxed text-cumberland-mist">
         Helping schools, teams, churches, and local businesses across the Upper
         Cumberland show up looking like pros — with signs, shirts, hats, and
