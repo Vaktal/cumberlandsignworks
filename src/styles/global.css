@@ -44,7 +44,7 @@
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-cumberland-clay ring-offset-2 ring-offset-cumberland-cream;
+    @apply outline-none ring-2 ring-cumberland-ink ring-offset-2 ring-offset-cumberland-cream;
   }
 }
 
@@ -53,24 +53,27 @@
     @apply max-w-6xl mx-auto px-6 lg:px-8;
   }
 
+  /* Sharp corners — industrial print shop, not a tech startup */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-semibold transition-colors duration-200 focus-visible:ring-offset-cumberland-cream;
+    @apply inline-flex items-center justify-center gap-2 rounded px-6 py-3 font-semibold transition-colors duration-150 focus-visible:ring-offset-cumberland-cream;
   }
 
   .btn-primary {
-    @apply btn bg-cumberland-clay text-white hover:bg-cumberland-clay-dark;
+    @apply btn bg-cumberland-ink text-white hover:bg-black;
   }
 
   .btn-secondary {
-    @apply btn bg-transparent text-cumberland-forest border-2 border-cumberland-forest hover:bg-cumberland-forest hover:text-white;
+    @apply btn bg-transparent text-cumberland-ink border-2 border-cumberland-ink hover:bg-cumberland-ink hover:text-white;
   }
 
   .btn-ghost {
-    @apply btn bg-transparent text-cumberland-ink underline underline-offset-4 hover:text-cumberland-forest;
+    @apply btn bg-transparent text-cumberland-ink underline underline-offset-4 hover:opacity-60;
   }
 
+  /* Stone gray on light backgrounds = readable hierarchy without competing with headings */
+  /* Individual dark-section components override to text-cumberland-mist */
   .eyebrow {
-    @apply text-xs uppercase tracking-[0.2em] font-semibold text-cumberland-clay;
+    @apply text-xs uppercase tracking-[0.2em] font-semibold text-cumberland-stone;
   }
 
   .section {

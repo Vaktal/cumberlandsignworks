@@ -3,19 +3,19 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
   theme: {
     extend: {
-      // Brand tokens — DRAFT. Lock with stakeholder before launch.
-      // Recommendation: deep forest green primary + warm clay accent.
-      // Cuts through a market saturated with red/blue/black sign shops.
+      // B&W rebrand — tokens intentionally collapsed to black/gray/white.
+      // When client approves an accent color, update clay + clay-dark only.
+      // forest/clay/ink all map to #111111 by design during this phase.
       colors: {
         cumberland: {
-          ink: '#111111',
-          cream: '#FFFFFF',
-          forest: '#111111',
-          'forest-dark': '#000000',
-          clay: '#111111',
-          'clay-dark': '#000000',
-          stone: '#6B7280',
-          mist: '#E5E5E5',
+          ink:           '#111111', // near-black body text
+          cream:         '#FFFFFF', // page background + text on dark
+          forest:        '#111111', // primary brand (links, headings, dark sections)
+          'forest-dark': '#000000', // hover/pressed state for forest
+          clay:          '#111111', // accent role (CTAs, bullets) — swap here when accent locked
+          'clay-dark':   '#000000', // hover/pressed state for clay
+          stone:         '#6B7280', // secondary text + eyebrows on dark backgrounds
+          mist:          '#E5E5E5', // light gray, body text on dark sections
         },
       },
       fontFamily: {
