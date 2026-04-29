@@ -23,7 +23,7 @@ export async function sendQuoteEmail(opts: {
     ['Needed by', fields.neededBy || '—'],
     ['Artwork', artworkFile ? `Attached (${artworkFile.name})` : 'None'],
   ]
-    .filter(Boolean)
+    .filter((row): row is string[] => row !== null)
     .map(
       ([label, value]) =>
         `<tr>
