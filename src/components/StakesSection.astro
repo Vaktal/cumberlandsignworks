@@ -1,40 +1,41 @@
 ---
 /**
- * StakesSection — what they lose by going elsewhere. SB7: Failure.
+ * StakesSection — what they lose by going elsewhere. SB7: Failure. Paper skin, restrained.
  */
+const risks = [
+  "Game day with shirts that didn't ship.",
+  'A storefront sign that blends into every other strip mall.',
+  'A wrapped vehicle in the wrong shade of your brand color.',
+  'A church youth event without the t-shirts the kids were promised.',
+  'The exact same money — for noticeably worse work.',
+];
 ---
 
-<section class="section bg-cumberland-ink text-cumberland-cream">
-  <div class="container-rail max-w-4xl">
-    <p class="eyebrow text-cumberland-stone">What you risk by going somewhere else</p>
-    <h2 class="mt-4">Same money. Worse work. Worse week.</h2>
+<section class="section bg-cumberland-paper">
+  <div class="container-rail">
+    <div class="border-t border-cumberland-ink/15 pt-6">
+      <p class="rail-label text-cumberland-clay">05 — The Stakes</p>
+    </div>
 
-    <ul class="mt-8 space-y-3 text-lg leading-relaxed">
-      <li class="flex gap-3">
-        <span class="text-cumberland-stone shrink-0" aria-hidden="true">✕</span>
-        Game day with shirts that didn't ship.
-      </li>
-      <li class="flex gap-3">
-        <span class="text-cumberland-stone shrink-0" aria-hidden="true">✕</span>
-        A storefront sign that blends into every other strip mall.
-      </li>
-      <li class="flex gap-3">
-        <span class="text-cumberland-stone shrink-0" aria-hidden="true">✕</span>
-        A wrapped vehicle in the wrong shade of your brand color.
-      </li>
-      <li class="flex gap-3">
-        <span class="text-cumberland-stone shrink-0" aria-hidden="true">✕</span>
-        A church youth event without the t-shirts the kids were promised.
-      </li>
-      <li class="flex gap-3">
-        <span class="text-cumberland-stone shrink-0" aria-hidden="true">✕</span>
-        The exact same money — for noticeably worse work.
-      </li>
+    <h2 class="mt-8 max-w-3xl uppercase text-cumberland-ink" data-reveal>
+      Same money. Worse work. Worse week.
+    </h2>
+
+    <ul class="mt-10 max-w-3xl" data-reveal-stagger>
+      {
+        risks.map((r) => (
+          <li class="flex items-start gap-4 border-b border-cumberland-ink/10 py-4 text-lg text-cumberland-ink">
+            <span class="mt-1 font-mono text-cumberland-stone" aria-hidden="true">
+              ✕
+            </span>
+            <span>{r}</span>
+          </li>
+        ))
+      }
     </ul>
 
-    <p class="mt-10 text-xl text-cumberland-mist">
-      Your team, your business, your church deserves better than a tracking
-      number from a stranger.
+    <p class="mt-10 max-w-3xl text-xl leading-relaxed text-cumberland-stone" data-reveal>
+      Your team, your business, your church deserves better than a tracking number from a stranger.
     </p>
   </div>
 </section>

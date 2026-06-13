@@ -1,53 +1,62 @@
 ---
 /**
- * ThreeStepPlan — the SB7 plan. Same 3 steps everywhere on the site.
+ * ThreeStepPlan — the SB7 plan. Same 3 steps everywhere. "Shop Floor" skin:
+ * oversized numerals, orange progress rail, staggered reveal.
  */
 const steps = [
   {
-    n: '1',
+    n: '01',
     title: 'Tell us what you need.',
-    body:
-      'Call, message, or fill the project form. Don\'t have artwork? No problem — we\'ll help you figure it out.',
+    body: "Call, message, or fill the project form. Don't have artwork? No problem — we'll help you figure it out.",
   },
   {
-    n: '2',
+    n: '02',
     title: 'We design and quote — fast.',
-    body:
-      'Free proof. Honest timeline. Clear price. Usually within 24–48 hours.',
+    body: 'Free proof. Honest timeline. Clear price. Usually within 24–48 hours.',
   },
   {
-    n: '3',
+    n: '03',
     title: 'You get it on time, looking right.',
-    body:
-      'Delivered to your school, your shop, your jobsite — or installed in person if it\'s a wrap or a sign.',
+    body: "Delivered to your school, your shop, your jobsite — or installed in person if it's a wrap or a sign.",
   },
 ];
 ---
 
-<section class="section bg-cumberland-cream">
+<section class="section bg-cumberland-paper">
   <div class="container-rail">
-    <div class="max-w-3xl">
-      <p class="eyebrow">How it works</p>
-      <h2 class="mt-4 text-cumberland-ink">Working with us is simple.</h2>
+    <div class="border-t border-cumberland-ink/15 pt-6">
+      <p class="rail-label text-cumberland-clay">03 — The Plan</p>
     </div>
 
-    <ol class="mt-12 grid gap-6 md:grid-cols-3">
+    <h2 class="mt-8 max-w-3xl uppercase text-cumberland-ink" data-reveal>
+      Working with us is simple.
+    </h2>
+
+    <ol class="mt-14 grid gap-px overflow-hidden border-y border-cumberland-ink/15 md:grid-cols-3 md:border md:border-cumberland-ink/15" data-reveal-stagger>
       {
         steps.map((step) => (
-          <li class="rounded-3xl border-2 border-cumberland-mist bg-white p-8">
-            <p class="font-display text-6xl text-cumberland-clay leading-none">{step.n}</p>
-            <p class="mt-4 font-display text-2xl text-cumberland-ink leading-tight">
+          <li class="group relative bg-cumberland-paper p-8 md:p-9">
+            <span class="absolute left-0 top-0 h-1 w-0 bg-cumberland-clay transition-all duration-700 group-hover:w-full" aria-hidden="true" />
+            <p class="font-display text-7xl leading-none text-cumberland-ink/15 md:text-8xl">
+              {step.n}
+            </p>
+            <p class="mt-5 font-display text-2xl uppercase tracking-tight text-cumberland-ink">
               {step.title}
             </p>
-            <p class="mt-3 text-cumberland-stone leading-relaxed">{step.body}</p>
+            <p class="mt-3 leading-relaxed text-cumberland-stone">{step.body}</p>
           </li>
         ))
       }
     </ol>
 
-    <div class="mt-12 flex justify-center">
-      <a href="/start-your-project" class="btn-primary text-base md:text-lg">
-        Start Your Project
+    <div class="mt-12">
+      <a
+        href="/start-your-project"
+        data-magnetic
+        data-cursor="START"
+        class="btn-primary text-base md:text-lg"
+      >
+        Start Your Project <span aria-hidden="true">→</span>
       </a>
     </div>
   </div>

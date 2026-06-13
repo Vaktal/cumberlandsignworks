@@ -1,0 +1,112 @@
+---
+/**
+ * HalftoneCanvas — the signature "wet ink" CMYK-dot field.
+ * Sits absolutely behind hero content. GPU-light: 2D canvas, DPR capped at 1.5,
+ * paused off-screen via IntersectionObserver, single static frame under reduced-motion.
+ *
+ * Props:
+ *   class? — extra classes for the wrapper (positioning handled by parent)
+ */
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+---
+
+<canvas
+  data-halftone
+  class:list={['pointer-events-none absolute inset-0 h-full w-full', cls]}
+  aria-hidden="true"></canvas>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLCanvasElement>('canvas[data-halftone]').forEach((cv) => {
+    const ctx = cv.getContext('2d');
+    if (!ctx) return;
+    // Read the accent from the single source of truth (--flare) so a palette
+    // swap propagates to the canvas with no code change.
+    const hex =
+      getComputedStyle(document.documentElement).getPropertyValue('--flare').trim() || '#ff4d1c';
+    const m = hex.replace('#', '');
+    const fr = parseInt(m.slice(0, 2), 16) || 255;
+    const fg = parseInt(m.slice(2, 4), 16) || 77;
+    const fb = parseInt(m.slice(4, 6), 16) || 28;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    let W = 0,
+      H = 0,
+      gap = 0,
+      R = 0;
+    let t = 0;
+    const pointer = { x: -9999, y: -9999 };
+    let running = false;
+
+    const resize = () => {
+      const rect = cv.getBoundingClientRect();
+      W = cv.width = Math.max(1, Math.floor(rect.width * dpr));
+      H = cv.height = Math.max(1, Math.floor(rect.height * dpr));
+      gap = 26 * dpr;
+      R = gap * 0.46;
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      for (let y = gap * 0.5; y < H; y += gap) {
+        for (let x = gap * 0.5; x < W; x += gap) {
+          const wave = Math.sin(x * 0.012 + y * 0.01 + t) * 0.5 + 0.5;
+          const dx = x - pointer.x,
+            dy = y - pointer.y;
+          const dist = Math.hypot(dx, dy);
+          const push = Math.max(0, 1 - dist / (240 * dpr));
+          const r = R * (0.22 + wave * 0.55) + push * R * 1.5;
+          ctx.beginPath();
+          ctx.arc(x, y, Math.max(0.4, r), 0, 6.2832);
+          ctx.fillStyle =
+            push > 0.02
+              ? `rgba(${fr},${fg},${fb},${0.45 + push * 0.55})`
+              : `rgba(120,120,120,${0.16 + wave * 0.22})`;
+          ctx.fill();
+        }
+      }
+    };
+
+    const loop = () => {
+      if (!running) return;
+      draw();
+      t += 0.012;
+      requestAnimationFrame(loop);
+    };
+
+    resize();
+    addEventListener('resize', resize, { passive: true });
+    addEventListener(
+      'pointermove',
+      (e) => {
+        const rect = cv.getBoundingClientRect();
+        pointer.x = (e.clientX - rect.left) * dpr;
+        pointer.y = (e.clientY - rect.top) * dpr;
+      },
+      { passive: true }
+    );
+
+    if (reduce) {
+      draw(); // one static frame
+      return;
+    }
+
+    const vio = new IntersectionObserver(
+      (entries) => {
+        const visible = entries[0]?.isIntersecting ?? false;
+        if (visible && !running) {
+          running = true;
+          requestAnimationFrame(loop);
+        } else if (!visible) {
+          running = false;
+        }
+      },
+      { threshold: 0 }
+    );
+    vio.observe(cv);
+  });
+</script>

@@ -10,6 +10,7 @@ import SuccessSection from '@components/SuccessSection.astro';
 import ProofWall from '@components/ProofWall.astro';
 import RecentWork from '@components/RecentWork.astro';
 import CTASection from '@components/CTASection.astro';
+import MotionRuntime from '@components/motion/MotionRuntime.astro';
 ---
 
 <BaseLayout
@@ -26,4 +27,7 @@ import CTASection from '@components/CTASection.astro';
   <ProofWall />
   <RecentWork />
   <CTASection />
+
+  <!-- Homepage-only immersive motion layer (showcase). Conversion pages stay lean. -->
+  <MotionRuntime />
 </BaseLayout>

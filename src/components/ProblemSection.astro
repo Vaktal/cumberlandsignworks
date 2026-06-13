@@ -1,36 +1,48 @@
 ---
 /**
- * ProblemSection — names the pain. PEACE: P + E.
+ * ProblemSection — names the pain. PEACE: P + E. "Shop Floor" editorial skin.
  */
+const pains = [
+  "A national online shop that won't take your call when the order's late.",
+  'A local vendor who ghosts you for a week and then "had a question" about your file.',
+  'Five separate suppliers for shirts, banners, signs, and wraps when one shop should handle it all.',
+];
 ---
 
-<section class="section bg-cumberland-cream">
-  <div class="container-rail max-w-4xl">
-    <p class="eyebrow">Sound familiar?</p>
-    <h2 class="mt-4 text-cumberland-ink">Print shops shouldn't make your job harder.</h2>
-    <p class="mt-6 text-lg leading-relaxed text-cumberland-stone">
-      You've got a deadline. A team that needs to look sharp. A storefront
-      that's still a blank wall. A truck that should be working harder for your
-      brand. The last thing you need is:
-    </p>
-    <ul class="mt-6 space-y-4 text-lg text-cumberland-ink">
-      <li class="flex gap-3">
-        <span class="mt-1.5 h-2 w-2 rounded-full bg-cumberland-clay shrink-0" aria-hidden="true"></span>
-        A national online shop that won't take your call when the order's late.
-      </li>
-      <li class="flex gap-3">
-        <span class="mt-1.5 h-2 w-2 rounded-full bg-cumberland-clay shrink-0" aria-hidden="true"></span>
-        A local vendor who ghosts you for a week and then "had a question" about
-        your file.
-      </li>
-      <li class="flex gap-3">
-        <span class="mt-1.5 h-2 w-2 rounded-full bg-cumberland-clay shrink-0" aria-hidden="true"></span>
-        Five separate suppliers for shirts, banners, signs, and wraps when one
-        shop should handle it all.
-      </li>
-    </ul>
-    <p class="mt-8 text-xl italic text-cumberland-forest font-semibold">
-      That's not how this should work.
+<section class="section bg-cumberland-paper">
+  <div class="container-rail">
+    <div class="border-t border-cumberland-ink/15 pt-6">
+      <p class="rail-label text-cumberland-clay">01 — The Problem</p>
+    </div>
+
+    <div class="mt-10 grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <h2 class="uppercase text-cumberland-ink" data-reveal>
+          Print shops shouldn't make your job harder.
+        </h2>
+        <p class="mt-7 max-w-prose text-lg leading-relaxed text-cumberland-stone" data-reveal>
+          You've got a deadline. A team that needs to look sharp. A storefront that's still a blank
+          wall. A truck that should be working harder for your brand. The last thing you need is:
+        </p>
+      </div>
+
+      <ul class="lg:col-span-5 lg:pt-2" data-reveal-stagger>
+        {
+          pains.map((p, i) => (
+            <li class="flex gap-5 border-b border-cumberland-ink/10 py-5">
+              <span class="font-mono text-sm font-bold text-cumberland-clay">0{i + 1}</span>
+              <span class="text-lg leading-snug text-cumberland-ink">{p}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <p
+      class="mt-12 font-display text-4xl uppercase tracking-tighter text-cumberland-ink md:text-6xl"
+      data-reveal
+    >
+      That's <span class="text-cumberland-clay">not</span> how this should work.
     </p>
   </div>
 </section>

@@ -77,6 +77,14 @@ const localBusinessSchema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Space Mono — "shop ticket" labels. TODO(prod): self-host via @fontsource/space-mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
@@ -107,6 +115,18 @@ const localBusinessSchema = {
       type="application/ld+json"
       set:html={JSON.stringify(localBusinessSchema)}
     />
+
+    <!-- No-JS / no-observer fallback: reveal content is always visible -->
+    <noscript>
+      <style>
+        [data-reveal],
+        [data-reveal-stagger] > *,
+        .kinetic .line > span {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
   </head>
   <body>
     <a
@@ -125,5 +145,33 @@ const localBusinessSchema = {
     <Footer />
 
     <StickyCallBar phone={phone} phoneTel={phoneTel} />
+
+    <!-- Site-wide scroll-reveal (tiny). Cursor/magnetic/marquee are homepage-only via MotionRuntime. -->
+    <script>
+      const els = document.querySelectorAll(
+        '[data-reveal], [data-reveal-stagger], .kinetic, .dot-resolve'
+      );
+      if (els.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.15 }
+        );
+        els.forEach((el) => {
+          if (el.matches('[data-reveal-stagger]')) {
+            Array.from(el.children).forEach(
+              (k, i) => ((k as HTMLElement).style.transitionDelay = `${i * 0.08}s`)
+            );
+          }
+          io.observe(el);
+        });
+      }
+    </script>
   </body>
 </html>

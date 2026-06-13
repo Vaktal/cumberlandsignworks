@@ -1,40 +1,87 @@
 ---
 /**
  * SuccessSection — paint the win. SB7: Success. PEACE: C + E.
+ * Ink skin so the real work pops; photo stack + the four vignettes.
  */
+import { Image } from 'astro:assets';
+import storefront from '../assets/photos/storefront-1776-coffee.jpg';
+import hats from '../assets/photos/apparel-embroidered-hats-wall.jpg';
+
+const wins = [
+  'The team runs out of the tunnel in matching, sharp, <em>real</em> uniforms. Phones come out. Photos go up.',
+  'The new sign goes up over your shop and your friends text you photos. <em>"Saw your sign — looks awesome."</em>',
+  'Your work truck rolls into a job site and the homeowner says, "I\'ve seen you guys around — y\'all do good work, right?"',
+  'The pastor emails: <em>"Got the shirts. The kids LOVE them. Thank y\'all."</em>',
+];
 ---
 
-<section class="section bg-cumberland-cream">
-  <div class="container-rail max-w-4xl">
-    <p class="eyebrow">Imagine this</p>
-    <h2 class="mt-4 text-cumberland-ink">Here's what done-right looks like.</h2>
-
-    <div class="mt-10 space-y-6 text-lg leading-relaxed text-cumberland-ink">
-      <p>
-        The team runs out of the tunnel in matching, sharp, <em>real</em>
-        uniforms. Phones come out. Photos go up.
-      </p>
-      <p>
-        The new sign goes up over your shop and your friends text you photos.
-        <em>"Saw your sign — looks awesome."</em>
-      </p>
-      <p>
-        Your work truck rolls into a job site and the homeowner says, "I've
-        seen you guys around — y'all do good work, right?"
-      </p>
-      <p>
-        The pastor emails: <em>"Got the shirts. The kids LOVE them. Thank y'all."</em>
-      </p>
-      <p class="font-display text-2xl text-cumberland-forest leading-tight pt-4">
-        That's what 23 years of doing this gets you. That's the standard at
-        Cumberland Signworks.
-      </p>
+<section class="section bg-cumberland-ink text-cumberland-cream">
+  <div class="container-rail">
+    <div class="border-t border-cumberland-hairline pt-6">
+      <p class="rail-label text-cumberland-clay">06 — The Win</p>
     </div>
 
-    <div class="mt-10">
-      <a href="/start-your-project" class="btn-primary text-base md:text-lg">
-        Start Your Project
-      </a>
+    <div class="mt-10 grid gap-12 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-6">
+        <h2 class="uppercase text-cumberland-cream" data-reveal>
+          Here's what done-right looks like.
+        </h2>
+        <ul class="mt-8 space-y-5" data-reveal-stagger>
+          {
+            wins.map((w) => (
+              <li class="flex gap-4 text-lg leading-relaxed text-cumberland-mist">
+                <span class="mt-2 h-1.5 w-6 shrink-0 bg-cumberland-clay" aria-hidden="true" />
+                <span set:html={w} />
+              </li>
+            ))
+          }
+        </ul>
+        <p
+          class="mt-9 font-display text-3xl uppercase leading-tight tracking-tight text-cumberland-clay md:text-4xl"
+          data-reveal
+        >
+          That's what 23 years of doing this gets you. That's the standard at Cumberland Signworks.
+        </p>
+        <div class="mt-9" data-reveal>
+          <a
+            href="/start-your-project"
+            data-magnetic
+            data-cursor="START"
+            class="btn-primary text-base md:text-lg"
+          >
+            Start Your Project <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 lg:col-span-6" data-reveal>
+        <figure class="dot-resolve col-span-2 overflow-hidden rounded-[2px] border border-cumberland-hairline">
+          <Image
+            src={storefront}
+            alt="1776 Coffee storefront in Crossville with custom signage and a painted flag mural by Cumberland Signworks"
+            width={900}
+            height={600}
+            class="h-56 w-full object-cover md:h-72"
+          />
+        </figure>
+        <figure class="dot-resolve overflow-hidden rounded-[2px] border border-cumberland-hairline">
+          <Image
+            src={hats}
+            alt="A wall of custom embroidered trucker hats made by Cumberland Signworks"
+            width={500}
+            height={600}
+            class="h-48 w-full object-cover md:h-60"
+          />
+        </figure>
+        <div class="flex flex-col justify-between rounded-[2px] border border-cumberland-hairline bg-cumberland-forest-dark p-5">
+          <p class="font-display text-3xl uppercase leading-none tracking-tight text-cumberland-cream">
+            1,000+<br />projects
+          </p>
+          <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-cumberland-stone">
+            across Cumberland County
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>

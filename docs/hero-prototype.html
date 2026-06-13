@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cumberland Signworks — Hero Prototype (The Shop Floor)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A; --paper:#F7F5F0; --pure:#FFFFFF;
+    --flare:#FF4D1C; --flare-deep:#D63A0E; --smoke:#8A8A8A; --hairline:#2A2A2A;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--ink); color:var(--paper);
+    font-family:"Manrope",system-ui,-apple-system,sans-serif;
+    overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  }
+  /* ---- Fonts loaded via <link> in head; production self-hosts ---- */
+  .display{font-family:"Bebas Neue",system-ui,sans-serif;letter-spacing:.01em;line-height:.86}
+  .mono{font-family:"Space Mono",ui-monospace,monospace}
+
+  a{color:inherit;text-decoration:none}
+
+  /* ---- Custom cursor ---- */
+  .cursor,.cursor-dot{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference}
+  .cursor{width:38px;height:38px;border:1.5px solid var(--flare);border-radius:50%;
+    transform:translate(-50%,-50%);transition:width .25s var(--ease),height .25s var(--ease),background .25s var(--ease)}
+  .cursor.grow{width:84px;height:84px;background:var(--flare);border-color:var(--flare)}
+  .cursor-dot{width:5px;height:5px;background:var(--flare);border-radius:50%;transform:translate(-50%,-50%)}
+  .cursor-label{position:fixed;z-index:9999;pointer-events:none;font:700 11px/1 "Space Mono",monospace;
+    letter-spacing:.15em;color:var(--ink);transform:translate(-50%,-50%);opacity:0;transition:opacity .2s}
+  .cursor.grow ~ .cursor-label.show{opacity:1}
+  @media (hover:none){.cursor,.cursor-dot,.cursor-label{display:none}}
+
+  /* ---- Nav ---- */
+  nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:22px clamp(20px,4vw,56px);mix-blend-mode:difference}
+  .brand{font:700 15px/1 "Space Mono",monospace;letter-spacing:.18em;text-transform:uppercase}
+  .brand b{color:var(--flare)}
+  .navlinks{display:flex;gap:30px;font:600 13px/1 "Manrope",sans-serif;letter-spacing:.04em;text-transform:uppercase}
+  .navlinks a{position:relative;padding:4px 0}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--flare);transition:width .3s var(--ease)}
+  .navlinks a:hover::after{width:100%}
+  @media(max-width:760px){.navlinks{display:none}}
+
+  /* ---- Hero ---- */
+  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+    padding:120px clamp(20px,4vw,56px) 0;overflow:hidden}
+  #halftone{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.55}
+  .hero-grid-rail{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(var(--hairline) 1px,transparent 1px) 0 0/100% 25vh;opacity:.25}
+  .eyebrow{position:relative;z-index:2;display:flex;align-items:center;gap:14px;
+    font:700 12px/1 "Space Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--smoke);margin-bottom:26px}
+  .eyebrow .pulse{width:9px;height:9px;border-radius:50%;background:var(--flare);box-shadow:0 0 0 0 var(--flare);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,77,28,.6)}70%{box-shadow:0 0 0 12px rgba(255,77,28,0)}100%{box-shadow:0 0 0 0 rgba(255,77,28,0)}}
+
+  h1.hero-title{position:relative;z-index:2;font-size:clamp(3.2rem,12.5vw,15rem);text-transform:uppercase;max-width:18ch}
+  .line{display:block;overflow:hidden}
+  .line span{display:block;transform:translateY(110%);animation:rise .9s var(--ease) forwards}
+  .line:nth-child(1) span{animation-delay:.15s}
+  .line:nth-child(2) span{animation-delay:.30s}
+  .line:nth-child(3) span{animation-delay:.45s}
+  .flare-text{color:var(--flare);position:relative;display:inline-block}
+  @keyframes rise{to{transform:translateY(0)}}
+
+  .sub{position:relative;z-index:2;margin-top:30px;max-width:46ch;font-size:clamp(1rem,1.4vw,1.2rem);
+    line-height:1.6;color:#CFCBC3;opacity:0;animation:fade .8s ease .8s forwards}
+  @keyframes fade{to{opacity:1}}
+
+  .cta-row{position:relative;z-index:2;margin-top:40px;display:flex;flex-wrap:wrap;align-items:center;gap:22px;
+    opacity:0;animation:fade .8s ease 1s forwards}
+  .btn-primary{position:relative;display:inline-flex;align-items:center;gap:12px;background:var(--flare);color:var(--ink);
+    font:800 15px/1 "Manrope",sans-serif;letter-spacing:.02em;text-transform:uppercase;padding:20px 34px;border-radius:2px;
+    will-change:transform;transition:background .2s var(--ease)}
+  .btn-primary:hover{background:var(--pure)}
+  .btn-primary .arrow{transition:transform .3s var(--ease)}
+  .btn-primary:hover .arrow{transform:translateX(6px)}
+  .btn-ghost{font:700 14px/1 "Manrope",sans-serif;letter-spacing:.04em;text-transform:uppercase;
+    padding:18px 4px;border-bottom:2px solid var(--hairline);transition:border-color .3s,color .3s}
+  .btn-ghost:hover{border-color:var(--flare);color:var(--flare)}
+
+  .trust{position:relative;z-index:2;margin-top:54px;display:flex;flex-wrap:wrap;gap:14px 34px;
+    font:700 12.5px/1 "Space Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--smoke);
+    opacity:0;animation:fade .8s ease 1.15s forwards}
+  .trust b{color:var(--paper)}
+  .trust .star{color:var(--flare)}
+
+  /* ---- Marquee ---- */
+  .marquee{position:relative;z-index:2;margin-top:auto;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);
+    padding:18px 0;overflow:hidden;white-space:nowrap;background:rgba(10,10,10,.4);backdrop-filter:blur(2px)}
+  .marquee-track{display:inline-block;will-change:transform}
+  .marquee-track span{font-family:"Bebas Neue",sans-serif;font-size:clamp(1.6rem,3vw,2.6rem);letter-spacing:.04em;
+    text-transform:uppercase;padding:0 28px;color:var(--paper)}
+  .marquee-track span.dim{color:transparent;-webkit-text-stroke:1px var(--smoke)}
+  .marquee-track .dot{color:var(--flare);padding:0 4px}
+
+  .scrollcue{position:absolute;right:clamp(20px,4vw,56px);bottom:96px;z-index:2;display:flex;align-items:center;gap:10px;
+    font:700 11px/1 "Space Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--smoke);
+    writing-mode:vertical-rl;opacity:0;animation:fade .8s ease 1.3s forwards}
+  @media(max-width:760px){.scrollcue{display:none}}
+
+  /* second panel to prove transition / scroll feel */
+  .panel2{position:relative;background:var(--paper);color:var(--ink);padding:clamp(60px,10vw,160px) clamp(20px,4vw,56px);z-index:2}
+  .panel2 .label{font:700 12px/1 "Space Mono",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--flare-deep)}
+  .panel2 h2{font-family:"Bebas Neue",sans-serif;font-size:clamp(2.6rem,8vw,7rem);line-height:.9;text-transform:uppercase;margin:18px 0 24px;max-width:16ch}
+  .panel2 p{max-width:54ch;font-size:1.15rem;line-height:1.65;color:#3A3A3A}
+  .reduced-note{position:fixed;left:14px;bottom:12px;z-index:60;font:600 11px/1.4 "Space Mono",monospace;color:var(--smoke);max-width:240px;opacity:.6}
+
+  @media (prefers-reduced-motion: reduce){
+    .line span,.sub,.cta-row,.trust,.scrollcue{animation:none!important;transform:none!important;opacity:1!important}
+    .marquee-track{animation:none!important}
+    .pulse{animation:none!important}
+  }
+</style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-label" id="cursorLabel">START</div>
+
+  <nav>
+    <div class="brand">CUMBERLAND<b>·</b>SIGNWORKS</div>
+    <div class="navlinks">
+      <a href="#" data-cursor>Work</a>
+      <a href="#" data-cursor>Apparel</a>
+      <a href="#" data-cursor>Signs</a>
+      <a href="#" data-cursor>Wraps</a>
+      <a href="#" data-cursor>About</a>
+    </div>
+    <a class="brand" href="#" data-cursor style="color:var(--flare)">EST. 2003 — CROSSVILLE TN</a>
+  </nav>
+
+  <header class="hero">
+    <canvas id="halftone"></canvas>
+    <div class="hero-grid-rail"></div>
+
+    <div class="eyebrow"><span class="pulse"></span> Crossville, TN · One shop, everything printed, stitched &amp; wrapped</div>
+
+    <h1 class="hero-title display">
+      <span class="line"><span>Make your team,</span></span>
+      <span class="line"><span>church, or business</span></span>
+      <span class="line"><span class="flare-text">look like pros.</span></span>
+    </h1>
+
+    <p class="sub">Signs, shirts, hats, banners, and full vehicle wraps — designed and delivered fast in Crossville. 23 years. 1,000+ projects. One shop that actually picks up the phone.</p>
+
+    <div class="cta-row">
+      <a class="btn-primary" id="magnetic" href="#" data-cursor="START">Start Your Project <span class="arrow">→</span></a>
+      <a class="btn-ghost" href="#" data-cursor="VIEW">See the work</a>
+    </div>
+
+    <div class="trust">
+      <div><span class="star">★</span> <b>4.7</b> / 95+ reviews</div>
+      <div><b>In-house</b> everything</div>
+      <div><b>23 years</b> locally owned</div>
+      <div><b>24–48hr</b> quotes</div>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="mtrack">
+        <span>Signs</span><span class="dot">●</span><span class="dim">Vehicle Wraps</span><span class="dot">●</span><span>Apparel</span><span class="dot">●</span><span class="dim">Embroidery</span><span class="dot">●</span><span>Banners</span><span class="dot">●</span><span class="dim">Window Graphics</span><span class="dot">●</span><span>Laser Engraving</span><span class="dot">●</span><span class="dim">Merch Stores</span><span class="dot">●</span>
+      </div>
+    </div>
+
+    <div class="scrollcue">Scroll ↓ to enter the shop</div>
+  </header>
+
+  <section class="panel2">
+    <div class="label mono">01 — The Problem</div>
+    <h2 class="display">Print shops shouldn't make your job harder.</h2>
+    <p>You've got a deadline. A team that needs to look sharp. A storefront that's still a blank wall. The last thing you need is a national site that won't take your call when the order's late — or a local vendor who ghosts you for a week. <strong>That's not how this should work.</strong> (This panel is here to show the ink-on-paper section transition and scroll feel. The full build continues with the Guide, the 3-step Plan, Stakes, Success, Proof, and the quote CTA.)</p>
+  </section>
+
+  <div class="reduced-note mono">Prototype — “The Shop Floor” direction. Custom cursor, animated halftone, kinetic type, magnetic CTA &amp; scroll-reactive marquee. Respects prefers-reduced-motion.</div>
+
+<script>
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Custom cursor ---------- */
+const cursor = document.getElementById('cursor');
+const dot = document.getElementById('cursorDot');
+const label = document.getElementById('cursorLabel');
+let mx=innerWidth/2, my=innerHeight/2, cx=mx, cy=my;
+addEventListener('pointermove', e=>{ mx=e.clientX; my=e.clientY; dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;
+  label.style.left=mx+'px'; label.style.top=my+'px'; });
+function loopCursor(){ cx+=(mx-cx)*0.18; cy+=(my-cy)*0.18;
+  cursor.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`; requestAnimationFrame(loopCursor); }
+loopCursor();
+document.querySelectorAll('[data-cursor]').forEach(el=>{
+  el.addEventListener('pointerenter',()=>{ cursor.classList.add('grow');
+    const t=el.getAttribute('data-cursor'); if(t){label.textContent=t; label.classList.add('show');}});
+  el.addEventListener('pointerleave',()=>{ cursor.classList.remove('grow'); label.classList.remove('show'); });
+});
+
+/* ---------- Magnetic CTA ---------- */
+const mag=document.getElementById('magnetic');
+mag.addEventListener('pointermove',e=>{ const r=mag.getBoundingClientRect();
+  const x=e.clientX-(r.left+r.width/2), y=e.clientY-(r.top+r.height/2);
+  mag.style.transform=`translate(${x*0.3}px,${y*0.4}px)`; });
+mag.addEventListener('pointerleave',()=>{ mag.style.transform='translate(0,0)'; });
+
+/* ---------- Animated halftone field ---------- */
+const cv=document.getElementById('halftone'), ctx=cv.getContext('2d');
+let W,H, dpr=Math.min(devicePixelRatio||1,1.5);
+function resize(){ W=cv.width=innerWidth*dpr; H=cv.height=innerHeight*dpr; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
+resize(); addEventListener('resize',resize);
+const gap=26*dpr, R=gap*0.46;
+let t=0, pointer={x:-9999,y:-9999};
+addEventListener('pointermove',e=>{ pointer.x=e.clientX*dpr; pointer.y=e.clientY*dpr; });
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(let y=gap*0.5;y<H;y+=gap){
+    for(let x=gap*0.5;x<W;x+=gap){
+      const wave=Math.sin((x*0.012)+(y*0.010)+t)*0.5+0.5;
+      const dx=x-pointer.x, dy=y-pointer.y, dist=Math.hypot(dx,dy);
+      const push=Math.max(0,1-dist/(260*dpr));
+      let r=R*(0.22+wave*0.55)+push*R*1.4;
+      const near=push>0.02;
+      ctx.beginPath(); ctx.arc(x,y,Math.max(0.4,r),0,6.2832);
+      ctx.fillStyle = near ? 'rgba(255,77,28,'+(0.5+push*0.5)+')' : 'rgba(120,120,120,'+(0.18+wave*0.22)+')';
+      ctx.fill();
+    }
+  }
+  if(!reduce){ t+=0.012; requestAnimationFrame(draw); }
+}
+draw();
+
+/* ---------- Scroll-reactive marquee ---------- */
+const track=document.getElementById('mtrack');
+track.innerHTML += track.innerHTML; // duplicate for seamless loop
+let pos=0, base=0.6, vel=0, lastY=scrollY;
+addEventListener('scroll',()=>{ vel=Math.min(8,Math.abs(scrollY-lastY)*0.4); lastY=scrollY; });
+function marquee(){ const half=track.scrollWidth/2; pos-=(base+vel); if(-pos>=half)pos+=half;
+  track.style.transform=`translateX(${pos}px)`; vel*=0.9;
+  if(!reduce) requestAnimationFrame(marquee); }
+if(!reduce) marquee();
+</script>
+</body>
+</html>

@@ -1,32 +1,42 @@
 ---
 /**
  * CTASection — final block on most pages. Direct + transitional CTA.
+ * "Shop Floor" close: ink + halftone, oversized headline, magnetic primary.
  */
+import HalftoneCanvas from './motion/HalftoneCanvas.astro';
 ---
 
-<section class="section bg-cumberland-forest text-cumberland-cream">
-  <div class="container-rail max-w-3xl text-center">
-    <h2>Have a project? Let's start it.</h2>
-    <p class="mt-4 text-lg text-cumberland-mist">
+<section class="relative overflow-hidden bg-cumberland-ink text-cumberland-cream">
+  <HalftoneCanvas class="opacity-40" />
+
+  <div class="container-rail relative z-10 py-24 text-center md:py-32">
+    <h2 class="mx-auto max-w-4xl uppercase text-cumberland-cream" data-reveal>
+      Have a project? <span class="text-cumberland-clay">Let's start it.</span>
+    </h2>
+    <p class="mx-auto mt-6 max-w-xl text-lg text-cumberland-mist" data-reveal>
       Free proof. Fast quote. Friendly humans.
     </p>
-    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+
+    <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row" data-reveal>
       <a
         href="/start-your-project"
-        class="btn bg-cumberland-clay text-white hover:bg-cumberland-clay-dark text-base md:text-lg"
+        data-magnetic
+        data-cursor="START"
+        class="btn-primary text-base md:text-lg"
       >
-        Start Your Project →
+        Start Your Project <span aria-hidden="true">→</span>
       </a>
       <a
         href="/resources/checklist"
-        class="btn bg-transparent border-2 border-cumberland-cream text-cumberland-cream hover:bg-cumberland-cream hover:text-cumberland-ink text-base md:text-lg"
+        class="btn-secondary border-cumberland-cream text-cumberland-cream hover:bg-cumberland-cream hover:text-cumberland-ink text-base md:text-lg"
       >
         Get the Free Checklist
       </a>
     </div>
-    <p class="mt-6 text-sm text-cumberland-mist">
-      Not ready yet? Grab the Project Checklist — file specs, sizing, timelines,
-      and what to ask for. One page. No fluff.
+
+    <p class="mx-auto mt-7 max-w-xl text-sm text-cumberland-stone" data-reveal>
+      Not ready yet? Grab the Project Checklist — file specs, sizing, timelines, and what to ask
+      for. One page. No fluff.
     </p>
   </div>
 </section>

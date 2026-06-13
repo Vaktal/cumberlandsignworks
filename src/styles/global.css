@@ -8,10 +8,15 @@
 @layer base {
   :root {
     --container-px: 1.5rem;
+    /* ACCENT — single source of truth for JS-driven motion (halftone canvas,
+       custom cursor). Keep in sync with `clay`/`clay-dark` in tailwind.config. */
+    --flare: #ff4d1c;
+    --flare-deep: #d63a0e;
+    --ease-shop: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   html {
-    @apply bg-cumberland-cream text-cumberland-ink antialiased;
+    @apply bg-cumberland-paper text-cumberland-ink antialiased;
     font-feature-settings: 'cv11', 'ss01', 'ss03';
   }
 
@@ -28,11 +33,11 @@
   }
 
   h1 {
-    @apply text-4xl md:text-6xl lg:text-7xl leading-[0.95];
+    @apply text-5xl md:text-7xl lg:text-8xl leading-[0.9];
   }
 
   h2 {
-    @apply text-3xl md:text-5xl leading-[1.05];
+    @apply text-4xl md:text-6xl leading-[0.95];
   }
 
   h3 {
@@ -44,7 +49,7 @@
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-cumberland-ink ring-offset-2 ring-offset-cumberland-cream;
+    @apply outline-none ring-2 ring-cumberland-clay ring-offset-2 ring-offset-cumberland-paper;
   }
 }
 
@@ -55,28 +60,210 @@
 
   /* Sharp corners — industrial print shop, not a tech startup */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded px-6 py-3 font-semibold transition-colors duration-150 focus-visible:ring-offset-cumberland-cream;
+    @apply inline-flex items-center justify-center gap-2 rounded-[2px] px-7 py-4 font-semibold uppercase tracking-wide transition-colors duration-150 focus-visible:ring-offset-cumberland-paper;
   }
 
+  /* Primary CTA is now the accent — the dominant orange button */
   .btn-primary {
-    @apply btn bg-cumberland-ink text-white hover:bg-black;
+    @apply btn bg-cumberland-clay text-cumberland-ink hover:bg-cumberland-cream;
   }
 
   .btn-secondary {
-    @apply btn bg-transparent text-cumberland-ink border-2 border-cumberland-ink hover:bg-cumberland-ink hover:text-white;
+    @apply btn bg-transparent text-cumberland-ink border-2 border-cumberland-ink hover:bg-cumberland-ink hover:text-cumberland-cream;
   }
 
   .btn-ghost {
-    @apply btn bg-transparent text-cumberland-ink underline underline-offset-4 hover:opacity-60;
+    @apply inline-flex items-center gap-2 font-semibold uppercase tracking-wide border-b-2 border-cumberland-hairline pb-1 transition-colors hover:border-cumberland-clay hover:text-cumberland-clay;
   }
 
-  /* Stone gray on light backgrounds = readable hierarchy without competing with headings */
-  /* Individual dark-section components override to text-cumberland-mist */
+  /* Mono eyebrow — the "shop ticket" label */
   .eyebrow {
-    @apply text-xs uppercase tracking-[0.2em] font-semibold text-cumberland-stone;
+    @apply font-mono text-xs uppercase tracking-[0.22em] font-bold text-cumberland-stone;
+  }
+
+  /* Numbered section index, e.g. 01 — THE PROBLEM */
+  .rail-label {
+    @apply font-mono text-xs uppercase tracking-[0.2em] font-bold;
   }
 
   .section {
-    @apply py-16 md:py-24;
+    @apply py-20 md:py-28;
+  }
+}
+
+/* ───────────────────────── MOTION SYSTEM ─────────────────────────
+   "The Shop Floor" — mechanical, then settle. Everything below is
+   progressively enhanced: the page is fully usable with no JS, and all
+   of it freezes under prefers-reduced-motion (see media query at end). */
+@layer utilities {
+  /* Custom cursor (homepage only; hidden on touch) */
+  .cursor-ring,
+  .cursor-dot,
+  .cursor-label {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+  }
+  .cursor-ring {
+    width: 38px;
+    height: 38px;
+    margin: -19px 0 0 -19px;
+    border: 1.5px solid var(--flare);
+    border-radius: 50%;
+    mix-blend-mode: difference;
+    transition: width 0.25s var(--ease-shop), height 0.25s var(--ease-shop),
+      margin 0.25s var(--ease-shop), background 0.25s var(--ease-shop);
+  }
+  .cursor-ring.is-grow {
+    width: 80px;
+    height: 80px;
+    margin: -40px 0 0 -40px;
+    background: var(--flare);
+  }
+  .cursor-dot {
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
+    background: var(--flare);
+    border-radius: 50%;
+    mix-blend-mode: difference;
+  }
+  .cursor-label {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: #0a0a0a;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .cursor-label.is-show {
+    opacity: 1;
+  }
+  body.has-cursor,
+  body.has-cursor a,
+  body.has-cursor button {
+    cursor: none;
+  }
+  @media (hover: none) {
+    .cursor-ring,
+    .cursor-dot,
+    .cursor-label {
+      display: none !important;
+    }
+    body.has-cursor {
+      cursor: auto;
+    }
+  }
+
+  /* Scroll reveal */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s var(--ease-shop), transform 0.8s var(--ease-shop);
+  }
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s var(--ease-shop), transform 0.7s var(--ease-shop);
+  }
+  [data-reveal-stagger].is-in > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Kinetic headline — words clip-reveal line by line */
+  .kinetic .line {
+    display: block;
+    overflow: hidden;
+  }
+  .kinetic .line > span {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 0.9s var(--ease-shop);
+  }
+  .kinetic.is-in .line > span {
+    transform: translateY(0);
+  }
+  .kinetic.is-in .line:nth-child(2) > span {
+    transition-delay: 0.08s;
+  }
+  .kinetic.is-in .line:nth-child(3) > span {
+    transition-delay: 0.16s;
+  }
+
+  /* Dot-resolve image — photo enters as halftone dots, sharpens in */
+  .dot-resolve img {
+    filter: contrast(1.35) brightness(1.04);
+    -webkit-mask-image: radial-gradient(circle at center, #000 0.8px, transparent 1px);
+    mask-image: radial-gradient(circle at center, #000 0.8px, transparent 1px);
+    -webkit-mask-size: 6px 6px;
+    mask-size: 6px 6px;
+    transition: -webkit-mask-size 1s var(--ease-shop), mask-size 1s var(--ease-shop),
+      filter 1s var(--ease-shop);
+  }
+  .dot-resolve.is-in img {
+    filter: none;
+    -webkit-mask-size: 1px 1px;
+    mask-size: 1px 1px;
+  }
+
+  /* Service marquee (track is duplicated in markup → -50% loops seamlessly) */
+  .marquee {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-block;
+    will-change: transform;
+    animation: marquee-scroll 38s linear infinite;
+  }
+  @keyframes marquee-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Duotone-to-color portfolio hover */
+  .duotone img {
+    filter: grayscale(1) contrast(1.1);
+    transition: filter 0.5s var(--ease-shop), transform 0.6s var(--ease-shop);
+  }
+  .duotone:hover img {
+    filter: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal],
+    [data-reveal-stagger] > *,
+    .kinetic .line > span {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    .dot-resolve img {
+      filter: none !important;
+      -webkit-mask: none !important;
+      mask: none !important;
+    }
+    .marquee-track {
+      animation: none !important;
+    }
+    .cursor-ring,
+    .cursor-dot,
+    .cursor-label {
+      display: none !important;
+    }
+    body.has-cursor {
+      cursor: auto !important;
+    }
   }
 }
