@@ -17,9 +17,10 @@
 - Motion islands: `src/components/motion/HalftoneCanvas.astro` (accent-driven CMYK-dot field, DPR-capped, pauses off-screen) and `src/components/motion/MotionRuntime.astro` (cursor, magnetic, marquee velocity — homepage only).
 - Site-wide scroll-reveal observer + no-JS fallback in `BaseLayout.astro`; Space Mono `<link>` in head.
 - **Full homepage re-skin**: Hero, Problem, Guide, ThreeStepPlan, ServicesStrip, Stakes, Success, ProofWall, RecentWork, CTASection — all in ink/paper editorial with numbered rail labels and real shop photos.
+- **View Transitions wired** (committed `17a9c1d`): `<ViewTransitions/>` in `BaseLayout` (default cross-fade route transition). All three motion scripts — the site-wide scroll-reveal observer, `MotionRuntime`, and `HalftoneCanvas` — rebound to `astro:page-load` with an `AbortController` reset per navigation (no listener/rAF accumulation; loops bail on `signal.aborted`). Reduced-motion guard added for `::view-transition` pseudos. **Verified** home→/signs→home: halftone + cursor re-init on return, cursor tears down off-home, 0 console errors. This unblocks §4/§5 (category + service pages can now add `transition:name` morph anchors).
 
 **NOT DONE (this doc covers it):**
-- Page/product **View Transitions** — not wired at all (no `<ViewTransitions/>`).
+- **Signature orange route-wipe (§3.2) — deferred enhancement.** Baseline is Astro's default cross-fade (live + reduced-motion safe). The flat-orange clip-wipe is NOT built yet: doing it to the "never feels like a load" bar needs visual iteration in a browser. Pick it up as a small polish task. (The §3.6 script-rebinding it depended on is done.)
 - **Category index pages** (`/apparel`, `/signs`, `/vehicle-wraps`, `/print`, `/stores`) — still old layout (white sections, rounded cards). They partially inherit orange/paper but are visually inconsistent.
 - **Service detail template** (`ServicePageLayout.astro`) — old layout.
 - **About** (team bios), **Portfolio** (collection empty), **Contact** (water-tower map), **/resources/checklist** lead magnet — not re-skinned / not built.
@@ -187,8 +188,8 @@ These are real inconsistencies between the deck, the homepage marquee, and the c
 
 ## 10. Ordered task list for Claude Code
 
-1. **Wire View Transitions + refactor scripts to `astro:page-load`** (§3.1, §3.6). Verify cursor + halftone survive home→signs→home. *Do this first — everything else assumes it.*
-2. Add the default orange wipe + reduced-motion rules to `global.css` (§3.2, §3.5).
+1. ✅ **DONE (`17a9c1d`)** — Wired View Transitions + rebound scripts to `astro:page-load` (§3.1, §3.6). Verified cursor + halftone survive home→signs→home.
+2. ⏳ **Reduced-motion rule DONE (§3.5); orange wipe DEFERRED (§3.2)** — baseline cross-fade is live. Build the orange clip-wipe as a browser-verified polish task.
 3. Build `CategoryHero.astro`; re-skin the 5 category index pages (§4) with morph anchors.
 4. Re-skin `ServicePageLayout.astro` (§5) with morph anchors; retoken breadcrumb/prose to ink/paper.
 5. Curate per-service hero images (§6); add `heroImage` to each MDX + the Decap field (§7.4).
