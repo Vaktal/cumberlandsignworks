@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import CategoryHero from '@components/CategoryHero.astro';
 
 const inkSoftUrl = import.meta.env.PUBLIC_INKSOFT_STORE_URL || null;
 
@@ -30,6 +31,21 @@ const useCases = [
   },
 ];
 
+const steps = [
+  {
+    title: 'Tell us about your store.',
+    body: "What products, which logos, what colors, what dates. If you don't have artwork yet, that's fine — we'll work through it together.",
+  },
+  {
+    title: 'We build and launch it.',
+    body: 'Fully branded storefront on our platform — your logo, your colors, your URL. Usually live within a week.',
+  },
+  {
+    title: 'Your people order. We fulfill.',
+    body: "They shop, pay, and choose their size. We print and ship — directly to their door or to one pickup location. You're done once you share the link.",
+  },
+];
+
 const checklistItems = [
   'Fully branded storefront — your logo, colors, products',
   'Product customization tools — names, numbers, sizes',
@@ -45,137 +61,108 @@ const checklistItems = [
   title="Custom Online Stores — Fundraising & Team Apparel Shops | Cumberland Signworks"
   description="Cumberland Signworks builds and runs fully branded online stores for schools, teams, churches, and businesses across Crossville and the Upper Cumberland. Powered by InkSoft — no upfront cost to set up."
 >
-  <!-- ─── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="section bg-cumberland-cream">
-    <div class="container-rail max-w-4xl">
-      <p class="eyebrow">Custom Online Stores</p>
-      <h1 class="mt-4 text-cumberland-ink">
-        Your own store.{' '}
-        <span class="text-cumberland-forest">We build and run it.</span>
-      </h1>
-      <p class="mt-6 text-xl leading-relaxed text-cumberland-stone">
-        Fundraising shops, spirit wear stores, team uniform portals. We set up a fully branded
-        online storefront for your school, team, church, or business — so your people can order
-        exactly what they need, when they need it, without chasing you for it.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-4">
-        <a href="/start-your-project" class="btn-primary">Set Up My Store</a>
-        {inkSoftUrl && (
-          <a
-            href={inkSoftUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Browse Cumberland Signworks stores on InkSoft (opens in new tab)"
-            class="btn-secondary"
-          >
-            Browse the store →
-          </a>
-        )}
+  <CategoryHero
+    label="Custom Online Stores"
+    lead="Your own store."
+    accent="We build and run it."
+    sub="Fundraising shops, spirit wear stores, team uniform portals. We set up a fully branded online storefront for your school, team, church, or business — so your people can order exactly what they need, when they need it, without chasing you for it."
+    primaryLabel="Set Up My Store"
+  />
+
+  <!-- ─── Who it's for ─────────────────────────────────────────────────── -->
+  <section class="section bg-cumberland-paper">
+    <div class="container-rail">
+      <div class="border-t border-cumberland-ink/15 pt-6">
+        <p class="rail-label text-cumberland-clay">Who it's for</p>
+      </div>
+      <h2 class="mt-8 max-w-4xl uppercase text-cumberland-ink" data-reveal>One store, any group.</h2>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger>
+        {
+          useCases.map((item) => (
+            <div class="rounded-[2px] border border-cumberland-ink/15 bg-cumberland-cream p-8">
+              <span class="mb-5 block h-3 w-3 rounded-full bg-cumberland-clay" aria-hidden="true" />
+              <p class="font-display text-2xl uppercase leading-tight tracking-tight text-cumberland-ink">
+                {item.title}
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-cumberland-stone">{item.body}</p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <!-- ─── Use Cases ────────────────────────────────────────────────────── -->
-  <section class="section bg-cumberland-mist/40">
+  <!-- ─── How it works ─────────────────────────────────────────────────── -->
+  <section class="section bg-cumberland-ink text-cumberland-cream">
     <div class="container-rail">
-      <p class="eyebrow">Who it's for</p>
-      <h2 class="mt-4 text-cumberland-ink">One store, any group.</h2>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {useCases.map((item) => (
-          <div class="rounded-3xl bg-white border border-cumberland-mist p-8">
-            <span
-              class="block h-3 w-3 rounded-full bg-cumberland-clay mb-5"
-              aria-hidden="true"
-            ></span>
-            <p class="font-display text-2xl text-cumberland-ink leading-tight">{item.title}</p>
-            <p class="mt-3 text-cumberland-stone text-sm">{item.body}</p>
-          </div>
-        ))}
+      <div class="border-t border-cumberland-hairline pt-6">
+        <p class="rail-label text-cumberland-clay">How it works</p>
+      </div>
+      <h2 class="mt-8 max-w-4xl uppercase text-cumberland-cream" data-reveal>
+        We handle the setup. You share the link.
+      </h2>
+      <div class="mt-12 grid gap-10 md:grid-cols-3" data-reveal-stagger>
+        {
+          steps.map((step, i) => (
+            <div class="border-t-2 border-cumberland-clay pt-6">
+              <p class="font-display text-6xl leading-none text-cumberland-clay">
+                {(i + 1).toString().padStart(2, '0')}
+              </p>
+              <p class="mt-6 font-display text-2xl uppercase leading-tight tracking-tight text-cumberland-cream">
+                {step.title}
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-cumberland-mist">{step.body}</p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <!-- ─── How It Works ─────────────────────────────────────────────────── -->
-  <section class="section bg-cumberland-cream">
+  <!-- ─── What's included ──────────────────────────────────────────────── -->
+  <section class="section bg-cumberland-paper">
     <div class="container-rail">
-      <p class="eyebrow">How it works</p>
-      <h2 class="mt-4 text-cumberland-ink">We handle the setup. You share the link.</h2>
-      <div class="mt-10 grid gap-6 md:grid-cols-3">
-        <div class="rounded-3xl bg-cumberland-mist/40 border border-cumberland-mist p-8">
-          <p class="font-display text-6xl text-cumberland-clay leading-none">1</p>
-          <p class="mt-6 font-display text-2xl text-cumberland-ink leading-tight">
-            Tell us about your store.
-          </p>
-          <p class="mt-3 text-cumberland-stone text-sm leading-relaxed">
-            What products, which logos, what colors, what dates. If you don't have artwork yet,
-            that's fine — we'll work through it together.
-          </p>
-        </div>
-        <div class="rounded-3xl bg-cumberland-mist/40 border border-cumberland-mist p-8">
-          <p class="font-display text-6xl text-cumberland-clay leading-none">2</p>
-          <p class="mt-6 font-display text-2xl text-cumberland-ink leading-tight">
-            We build and launch it.
-          </p>
-          <p class="mt-3 text-cumberland-stone text-sm leading-relaxed">
-            Fully branded storefront on our platform — your logo, your colors, your URL. Usually
-            live within a week.
-          </p>
-        </div>
-        <div class="rounded-3xl bg-cumberland-mist/40 border border-cumberland-mist p-8">
-          <p class="font-display text-6xl text-cumberland-clay leading-none">3</p>
-          <p class="mt-6 font-display text-2xl text-cumberland-ink leading-tight">
-            Your people order. We fulfill.
-          </p>
-          <p class="mt-3 text-cumberland-stone text-sm leading-relaxed">
-            They shop, pay, and choose their size. We print and ship — directly to their door or
-            to one pickup location. You're done once you share the link.
-          </p>
-        </div>
+      <div class="border-t border-cumberland-ink/15 pt-6">
+        <p class="rail-label text-cumberland-clay">What's included</p>
       </div>
-    </div>
-  </section>
-
-  <!-- ─── What's Included ──────────────────────────────────────────────── -->
-  <section class="section bg-cumberland-forest text-cumberland-cream">
-    <div class="container-rail">
-      <p class="eyebrow text-cumberland-stone">What's included</p>
-      <h2 class="mt-4 text-cumberland-cream">Everything to run your store — we handle it.</h2>
-      <div class="mt-10 grid gap-10 lg:grid-cols-2 lg:items-start">
-        <!-- Checklist -->
-        <ul class="space-y-4">
-          {checklistItems.map((item) => (
-            <li class="flex gap-3 text-cumberland-mist text-sm leading-relaxed">
-              <span
-                class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cumberland-mist/20 text-cumberland-mist text-xs font-bold"
-                aria-hidden="true"
-              >
-                ✓
-              </span>
-              {item}
-            </li>
-          ))}
+      <h2 class="mt-8 max-w-4xl uppercase text-cumberland-ink" data-reveal>
+        Everything to run your store — we handle it.
+      </h2>
+      <div class="mt-12 grid gap-10 lg:grid-cols-2 lg:items-start">
+        <ul class="space-y-4" data-reveal>
+          {
+            checklistItems.map((item) => (
+              <li class="flex gap-3 text-sm leading-relaxed text-cumberland-ink">
+                <span
+                  class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cumberland-clay text-xs font-bold text-cumberland-ink"
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+                {item}
+              </li>
+            ))
+          }
         </ul>
-        <!-- Info cards -->
-        <div class="flex flex-col gap-6">
-          <div class="rounded-3xl bg-cumberland-forest-dark/60 p-8">
-            <p class="font-display text-2xl text-cumberland-cream leading-tight">
+        <div class="flex flex-col gap-6" data-reveal>
+          <div class="rounded-[2px] border border-cumberland-ink/15 bg-cumberland-cream p-8">
+            <p class="font-display text-2xl uppercase leading-tight tracking-tight text-cumberland-ink">
               Powered by InkSoft
             </p>
-            <p class="mt-3 text-cumberland-mist text-sm leading-relaxed">
-              We use InkSoft — a purpose-built platform for decorated-apparel storefronts — so
-              your store runs on proven, secure e-commerce infrastructure. Your customers get a
-              clean shopping experience. We get automatic order routing straight into our
-              production queue.
+            <p class="mt-3 text-sm leading-relaxed text-cumberland-stone">
+              We use InkSoft — a purpose-built platform for decorated-apparel storefronts — so your
+              store runs on proven, secure e-commerce infrastructure. Your customers get a clean
+              shopping experience. We get automatic order routing straight into our production queue.
             </p>
           </div>
-          <div class="rounded-3xl bg-cumberland-forest-dark/60 p-8">
-            <p class="font-display text-2xl text-cumberland-cream leading-tight">
+          <div class="rounded-[2px] border border-cumberland-ink/15 bg-cumberland-cream p-8">
+            <p class="font-display text-2xl uppercase leading-tight tracking-tight text-cumberland-ink">
               No upfront cost to set up
             </p>
-            <p class="mt-3 text-cumberland-mist text-sm leading-relaxed">
+            <p class="mt-3 text-sm leading-relaxed text-cumberland-stone">
               There's no fee to open your store. You pay only for the items that are ordered and
-              produced. Pricing is set when we scope the store together — so your group always
-              knows what they're paying before the store goes live.
+              produced. Pricing is set when we scope the store together — so your group always knows
+              what they're paying before the store goes live.
             </p>
           </div>
         </div>
@@ -184,25 +171,30 @@ const checklistItems = [
   </section>
 
   <!-- ─── CTA ──────────────────────────────────────────────────────────── -->
-  <section class="section bg-cumberland-cream">
+  <section class="section bg-cumberland-ink text-cumberland-cream">
     <div class="container-rail max-w-3xl text-center">
-      <h2 class="text-cumberland-ink">Ready to set up your store?</h2>
-      <p class="mt-4 text-lg text-cumberland-stone">
+      <h2 class="uppercase text-cumberland-cream">Ready to set up your store?</h2>
+      <p class="mt-4 text-lg text-cumberland-mist">
         Tell us about your group, what you need, and when — we'll build the rest.
       </p>
-      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="/start-your-project" class="btn-primary">Set Up My Store</a>
-        {inkSoftUrl && (
-          <a
-            href={inkSoftUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Browse Cumberland Signworks stores on InkSoft (opens in new tab)"
-            class="btn-secondary"
-          >
-            Browse existing stores →
-          </a>
-        )}
+      <div class="mt-9 flex flex-col items-center justify-center gap-5 sm:flex-row">
+        <a href="/start-your-project" class="btn-primary text-base md:text-lg">
+          Set Up My Store
+          <span aria-hidden="true">→</span>
+        </a>
+        {
+          inkSoftUrl && (
+            <a
+              href={inkSoftUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Browse Cumberland Signworks stores on InkSoft (opens in new tab)"
+              class="btn-ghost text-cumberland-cream"
+            >
+              Browse existing stores →
+            </a>
+          )
+        }
       </div>
     </div>
   </section>

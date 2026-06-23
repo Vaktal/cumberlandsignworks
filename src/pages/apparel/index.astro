@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import CategoryHero from '@components/CategoryHero.astro';
+import ServiceIndex from '@components/ServiceIndex.astro';
 import CTASection from '@components/CTASection.astro';
 import ThreeStepPlan from '@components/ThreeStepPlan.astro';
 
@@ -12,55 +14,14 @@ services.sort((a, b) => a.data.order - b.data.order);
   title="Custom Apparel & Embroidery — Cumberland Signworks Crossville TN"
   description="Custom t-shirts, team uniforms, hats, polos, and embroidery for schools, teams, churches, and local businesses across the Upper Cumberland. Fast quotes, rush orders welcome."
 >
-  <section class="section bg-cumberland-cream">
-    <div class="container-rail max-w-4xl">
-      <p class="eyebrow">Apparel & Embroidery</p>
-      <h1 class="mt-4 text-cumberland-ink">
-        Your team, crew, or group — <span class="text-cumberland-forest">dressed right.</span>
-      </h1>
-      <p class="mt-6 text-xl leading-relaxed text-cumberland-stone">
-        Screen printing, embroidery, DTG, and custom headwear — all in-house in Crossville, TN.
-        Schools, leagues, churches, businesses, and everyone in between.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-4">
-        <a href="/start-your-project" class="btn-primary">Start Your Project</a>
-        <a href="/contact" class="btn-secondary">Talk to us first</a>
-      </div>
-    </div>
-  </section>
+  <CategoryHero
+    label="Apparel & Embroidery"
+    lead="Your team, crew, or group —"
+    accent="dressed right."
+    sub="Screen printing, embroidery, DTG, and custom headwear — all in-house in Crossville, TN. Schools, leagues, churches, businesses, and everyone in between."
+  />
 
-  <section class="section bg-cumberland-mist/40">
-    <div class="container-rail">
-      <p class="eyebrow">What we make</p>
-      <h2 class="mt-4 text-cumberland-ink">Apparel services</h2>
-      <ul class="mt-10 grid gap-6 sm:grid-cols-2">
-        {services.map((service) => (
-          <li>
-            <a
-              href={`/apparel/${service.slug}`}
-              class="group block h-full rounded-3xl bg-white p-8 border border-cumberland-mist transition-all hover:-translate-y-1 hover:shadow-xl"
-            >
-              <p class="font-display text-2xl text-cumberland-ink leading-tight group-hover:text-cumberland-forest">
-                {service.data.title}
-              </p>
-              <p class="mt-3 text-cumberland-stone text-sm">{service.data.summary}</p>
-              {service.data.bullets.length > 0 && (
-                <ul class="mt-4 space-y-1" aria-label="Highlights">
-                  {service.data.bullets.slice(0, 3).map((b) => (
-                    <li class="flex gap-2 text-sm text-cumberland-stone">
-                      <span class="text-cumberland-clay shrink-0" aria-hidden="true">✓</span>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <p class="mt-6 text-sm font-semibold text-cumberland-clay">Learn more →</p>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <ServiceIndex services={services} basePath="/apparel" heading="Apparel services" />
 
   <ThreeStepPlan />
   <CTASection />

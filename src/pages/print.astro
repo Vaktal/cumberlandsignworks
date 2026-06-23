@@ -1,33 +1,18 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import CategoryHero from '@components/CategoryHero.astro';
 import CTASection from '@components/CTASection.astro';
 import ThreeStepPlan from '@components/ThreeStepPlan.astro';
 
+// NOTE: there are no `category: print` service-detail pages yet (handoff §7.2),
+// so these are static product types — a numbered list, not links to detail pages.
 const products = [
-  {
-    name: 'Business Cards',
-    description: 'Standard, rounded corner, thick stock. Design help included.',
-  },
-  {
-    name: 'Flyers',
-    description: 'Full-color 8.5×11, half-sheet, quarter-sheet. Events, menus, promos.',
-  },
-  {
-    name: 'Door Hangers',
-    description: 'Great for contractors, restaurants, and service businesses.',
-  },
-  {
-    name: 'Rack Cards',
-    description: '4×9 format for lobbies, waiting rooms, and countertops.',
-  },
-  {
-    name: 'Postcards',
-    description: 'Direct mail, announcements, and promotional mailers.',
-  },
-  {
-    name: 'Brochures',
-    description: 'Tri-fold and bi-fold. Help organizing content included.',
-  },
+  { name: 'Business Cards', description: 'Standard, rounded corner, thick stock. Design help included.' },
+  { name: 'Flyers', description: 'Full-color 8.5×11, half-sheet, quarter-sheet. Events, menus, promos.' },
+  { name: 'Door Hangers', description: 'Great for contractors, restaurants, and service businesses.' },
+  { name: 'Rack Cards', description: '4×9 format for lobbies, waiting rooms, and countertops.' },
+  { name: 'Postcards', description: 'Direct mail, announcements, and promotional mailers.' },
+  { name: 'Brochures', description: 'Tri-fold and bi-fold. Help organizing content included.' },
 ];
 ---
 
@@ -35,35 +20,37 @@ const products = [
   title="Business Cards & Print — Cumberland Signworks Crossville TN"
   description="Business cards, flyers, door hangers, and short-run printing in Crossville, TN. Design help included. Fast turnaround."
 >
-  <section class="section bg-cumberland-cream">
-    <div class="container-rail max-w-4xl">
-      <p class="eyebrow">Business Cards & Print</p>
-      <h1 class="mt-4 text-cumberland-ink">
-        Printed materials that leave the right impression.
-      </h1>
-      <p class="mt-6 text-xl leading-relaxed text-cumberland-stone">
-        Cards, flyers, and door hangers — printed right here in Crossville, with design help built in.
-        No guessing on file specs. No waiting on a call center.
-      </p>
-      <div class="mt-8">
-        <a href="/start-your-project" class="btn-primary">Start Your Project</a>
-      </div>
-    </div>
-  </section>
+  <CategoryHero
+    label="Business Cards & Print"
+    lead="Printed materials that leave"
+    accent="the right impression."
+    sub="Cards, flyers, and door hangers — printed right here in Crossville, with design help built in. No guessing on file specs. No waiting on a call center."
+  />
 
-  <section class="section bg-cumberland-mist/40">
+  <section class="section bg-cumberland-paper">
     <div class="container-rail">
-      <p class="eyebrow">What we print</p>
-      <h2 class="mt-4 text-cumberland-ink">Short-run print services</h2>
-      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((product) => (
-          <li class="rounded-3xl bg-white border border-cumberland-mist p-8">
-            <p class="font-display text-2xl text-cumberland-ink leading-tight">
-              {product.name}
-            </p>
-            <p class="mt-3 text-cumberland-stone text-sm">{product.description}</p>
-          </li>
-        ))}
+      <div class="border-t border-cumberland-ink/15 pt-6">
+        <p class="rail-label text-cumberland-clay">What we print</p>
+      </div>
+
+      <h2 class="mt-8 max-w-4xl uppercase text-cumberland-ink" data-reveal>Short-run print</h2>
+
+      <ul class="mt-12 border-t border-cumberland-ink/15" data-reveal-stagger>
+        {
+          products.map((product, i) => (
+            <li class="grid grid-cols-[auto_1fr] items-baseline gap-5 border-b border-cumberland-ink/15 py-6 md:gap-8 md:py-8">
+              <span class="font-mono text-sm text-cumberland-stone">
+                {(i + 1).toString().padStart(2, '0')}
+              </span>
+              <span class="min-w-0">
+                <span class="block font-display text-2xl uppercase tracking-tight text-cumberland-ink md:text-4xl">
+                  {product.name}
+                </span>
+                <span class="mt-1 block text-sm text-cumberland-stone">{product.description}</span>
+              </span>
+            </li>
+          ))
+        }
       </ul>
     </div>
   </section>

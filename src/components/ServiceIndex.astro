@@ -1,0 +1,87 @@
+---
+/**
+ * ServiceIndex — the per-category service list. "Shop Floor" skin: editorial
+ * numbered list on paper, each row sweeps orange on hover (adapts the
+ * ServicesStrip pattern from ink → paper).
+ *
+ * Each row's title carries a `transition:name` morph anchor (`svc-title-<slug>`)
+ * so it morphs into the matching service-detail hero once that template is
+ * re-skinned (handoff §3.3). Until then Astro falls back to the default fade —
+ * no breakage. Names are unique per page (each slug appears once).
+ *
+ * Props:
+ *   services  — services collection entries for ONE category (required)
+ *   basePath  — URL prefix for detail links, e.g. "/signs" (required)
+ *   label     — mono rail label (default "What we make")
+ *   heading   — section <h2> (default "Services")
+ *   class     — extra classes merged onto the <section>
+ */
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  services: CollectionEntry<'services'>[];
+  basePath: string;
+  label?: string;
+  heading?: string;
+  class?: string;
+}
+
+const {
+  services,
+  basePath,
+  label = 'What we make',
+  heading = 'Services',
+  class: cls = '',
+} = Astro.props;
+---
+
+<section class:list={['section bg-cumberland-paper', cls]}>
+  <div class="container-rail">
+    <div class="border-t border-cumberland-ink/15 pt-6">
+      <p class="rail-label text-cumberland-clay">{label}</p>
+    </div>
+
+    <h2 class="mt-8 max-w-4xl uppercase text-cumberland-ink" data-reveal>{heading}</h2>
+
+    {
+      services.length === 0 ? (
+        <p class="mt-10 font-mono text-sm uppercase tracking-[0.12em] text-cumberland-stone">
+          Service pages coming soon.
+        </p>
+      ) : (
+        <ul class="mt-12 border-t border-cumberland-ink/15" data-reveal-stagger>
+          {services.map((service, i) => (
+            <li>
+              <a
+                href={`${basePath}/${service.slug}`}
+                data-cursor="OPEN"
+                class="group grid grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-cumberland-ink/15 py-6 transition-colors duration-300 hover:bg-cumberland-clay md:gap-8 md:py-8"
+              >
+                <span class="font-mono text-sm text-cumberland-stone transition-colors group-hover:text-cumberland-ink">
+                  {(i + 1).toString().padStart(2, '0')}
+                </span>
+                <span class="min-w-0">
+                  <span
+                    transition:name={`svc-title-${service.slug}`}
+                    class="block font-display text-2xl uppercase tracking-tight text-cumberland-ink md:text-4xl"
+                  >
+                    {service.data.title}
+                  </span>
+                  <span class="mt-1 block text-sm text-cumberland-stone transition-colors group-hover:text-cumberland-ink/80">
+                    {service.data.summary}
+                  </span>
+                </span>
+                <span
+                  class="font-display text-2xl text-cumberland-clay transition-all duration-300 group-hover:translate-x-1 group-hover:text-cumberland-ink md:text-3xl"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>

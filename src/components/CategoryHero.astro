@@ -1,0 +1,88 @@
+---
+/**
+ * CategoryHero — "Shop Floor" hero band for category index + landing pages.
+ * A smaller sibling of the homepage Hero: ink canvas + animated halftone,
+ * mono rail label, two-line kinetic headline (lead + orange accent), sub,
+ * primary CTA + ghost. No marquee/image/trust-strip (those stay on the home hero).
+ *
+ * Motion: the halftone canvas animates on its own (homepage-only cursor runtime
+ * is NOT included here — category pages are "cursor optional" per the plan).
+ *
+ * Props:
+ *   label        — mono eyebrow / rail label, e.g. "Signs & Banners" (required)
+ *   lead         — first headline line, plain (required)
+ *   accent       — second headline line, rendered in flare-orange (required)
+ *   sub          — supporting paragraph (required)
+ *   primaryHref  — primary CTA href (default /start-your-project)
+ *   primaryLabel — primary CTA text (default "Start Your Project")
+ *   secondaryHref  — ghost CTA href (default /contact)
+ *   secondaryLabel — ghost CTA text (default "Talk to us first"); pass "" to hide
+ *   class        — extra classes merged onto the <section>
+ */
+import HalftoneCanvas from './motion/HalftoneCanvas.astro';
+
+interface Props {
+  label: string;
+  lead: string;
+  accent: string;
+  sub: string;
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  class?: string;
+}
+
+const {
+  label,
+  lead,
+  accent,
+  sub,
+  primaryHref = '/start-your-project',
+  primaryLabel = 'Start Your Project',
+  secondaryHref = '/contact',
+  secondaryLabel = 'Talk to us first',
+  class: cls = '',
+} = Astro.props;
+---
+
+<section class:list={['relative overflow-hidden bg-cumberland-ink text-cumberland-cream', cls]}>
+  <HalftoneCanvas class="opacity-40" />
+
+  <!-- faint grid rail, paper-ledger feel (mirrors the homepage hero) -->
+  <div
+    class="pointer-events-none absolute inset-0 opacity-[0.15]"
+    style="background-image:linear-gradient(#2A2A2A 1px,transparent 1px);background-size:100% 6.5rem;"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container-rail relative z-10 pt-28 pb-20 md:pt-36 md:pb-24">
+    <div class="max-w-4xl">
+      <p class="eyebrow">{label}</p>
+
+      <h1 class="kinetic mt-6 max-w-3xl uppercase text-cumberland-cream">
+        <span class="line"><span>{lead}</span></span>
+        <span class="line"><span class="text-cumberland-clay">{accent}</span></span>
+      </h1>
+
+      <p class="mt-7 max-w-prose text-lg leading-relaxed text-cumberland-mist md:text-xl" data-reveal>
+        {sub}
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-5" data-reveal>
+        <a href={primaryHref} data-cursor="START" class="btn-primary text-base md:text-lg">
+          {primaryLabel}
+          <span aria-hidden="true">→</span>
+        </a>
+        {
+          secondaryLabel && (
+            <a href={secondaryHref} class="btn-ghost text-cumberland-cream" data-cursor="OPEN">
+              {secondaryLabel}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
