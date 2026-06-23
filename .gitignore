@@ -34,3 +34,6 @@ Thumbs.db
 # misc
 *.log
 .gstack/
+
+# raw source assets (curated into src/assets/photos/ — not committed)
+Assets/
