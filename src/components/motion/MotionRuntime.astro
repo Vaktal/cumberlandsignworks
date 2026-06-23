@@ -12,86 +12,125 @@
 <div class="cursor-label" id="cursorLabel" aria-hidden="true"></div>
 
 <script>
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  /* Bound to `astro:page-load` so the cursor/magnetic/marquee runtime survives
+     View-Transitions navigation. A module <script> runs once; without this it
+     would die after the first client-side nav and never re-init on return.
+     Each run aborts the previous page's listeners (AbortController) so global
+     handlers and the rAF loop don't accumulate across navigations. */
+  let controller: AbortController | null = null;
 
-  /* Scroll reveal is wired site-wide in BaseLayout. This island adds the
-     homepage-only flourishes: custom cursor, magnetic elements, marquee velocity. */
+  function init() {
+    // Tear down the previous page's bindings + rAF loop.
+    controller?.abort();
+    controller = new AbortController();
+    const { signal } = controller;
 
-  if (reduce || !fine) {
-    // No cursor, no magnetic, no velocity tricks. Site-wide reveals still run.
-  } else {
-    document.body.classList.add('has-cursor');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    /* ---------- Custom cursor ---------- */
-    const ring = document.getElementById('cursorRing')!;
-    const dot = document.getElementById('cursorDot')!;
-    const label = document.getElementById('cursorLabel')!;
-    let mx = innerWidth / 2,
-      my = innerHeight / 2,
-      rx = mx,
-      ry = my;
+    /* Scroll reveal is wired site-wide in BaseLayout. This island adds the
+       homepage-only flourishes: custom cursor, magnetic elements, marquee velocity. */
 
-    addEventListener('pointermove', (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.transform = `translate(${mx}px, ${my}px)`;
-      label.style.left = mx + 'px';
-      label.style.top = my - 34 + 'px';
-    });
+    const ring = document.getElementById('cursorRing');
+    const dot = document.getElementById('cursorDot');
+    const label = document.getElementById('cursorLabel');
 
-    const tick = () => {
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
-      ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    // Cursor markup is homepage-only; on other pages just clean up and bail.
+    if (ring && dot && label && !reduce && fine) {
+      document.body.classList.add('has-cursor');
+
+      /* ---------- Custom cursor ---------- */
+      let mx = innerWidth / 2,
+        my = innerHeight / 2,
+        rx = mx,
+        ry = my;
+
+      addEventListener(
+        'pointermove',
+        (e) => {
+          mx = e.clientX;
+          my = e.clientY;
+          dot.style.transform = `translate(${mx}px, ${my}px)`;
+          label.style.left = mx + 'px';
+          label.style.top = my - 34 + 'px';
+        },
+        { signal }
+      );
+
+      const tick = () => {
+        if (signal.aborted) return; // stop when this page is navigated away
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        ring.style.transform = `translate(${rx}px, ${ry}px)`;
+        requestAnimationFrame(tick);
+      };
       requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
 
-    document.querySelectorAll<HTMLElement>('a, button, [data-cursor]').forEach((el) => {
-      el.addEventListener('pointerenter', () => {
-        ring.classList.add('is-grow');
-        const t = el.getAttribute('data-cursor');
-        if (t) {
-          label.textContent = t;
-          label.classList.add('is-show');
-        }
+      document.querySelectorAll<HTMLElement>('a, button, [data-cursor]').forEach((el) => {
+        el.addEventListener(
+          'pointerenter',
+          () => {
+            ring.classList.add('is-grow');
+            const t = el.getAttribute('data-cursor');
+            if (t) {
+              label.textContent = t;
+              label.classList.add('is-show');
+            }
+          },
+          { signal }
+        );
+        el.addEventListener(
+          'pointerleave',
+          () => {
+            ring.classList.remove('is-grow');
+            label.classList.remove('is-show');
+          },
+          { signal }
+        );
       });
-      el.addEventListener('pointerleave', () => {
-        ring.classList.remove('is-grow');
-        label.classList.remove('is-show');
-      });
-    });
 
-    /* ---------- Magnetic elements ---------- */
-    document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
-      el.addEventListener('pointermove', (e) => {
-        const r = el.getBoundingClientRect();
-        const x = e.clientX - (r.left + r.width / 2);
-        const y = e.clientY - (r.top + r.height / 2);
-        el.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+      /* ---------- Magnetic elements ---------- */
+      document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
+        el.addEventListener(
+          'pointermove',
+          (e) => {
+            const r = el.getBoundingClientRect();
+            const x = e.clientX - (r.left + r.width / 2);
+            const y = e.clientY - (r.top + r.height / 2);
+            el.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+          },
+          { signal }
+        );
+        el.addEventListener(
+          'pointerleave',
+          () => {
+            el.style.transform = 'translate(0,0)';
+          },
+          { signal }
+        );
       });
-      el.addEventListener('pointerleave', () => {
-        el.style.transform = 'translate(0,0)';
-      });
-    });
+    }
+
+    /* ---------- Marquee scroll-velocity nudge (skipped under reduced-motion) ---------- */
+    if (!reduce) {
+      const tracks = document.querySelectorAll<HTMLElement>('.marquee-track');
+      if (tracks.length) {
+        let lastY = scrollY;
+        addEventListener(
+          'scroll',
+          () => {
+            const v = Math.min(6, Math.abs(scrollY - lastY) * 0.06);
+            lastY = scrollY;
+            tracks.forEach((t) => {
+              const base = parseFloat(t.dataset.base || '38');
+              t.style.animationDuration = `${Math.max(8, base - v * 4)}s`;
+            });
+          },
+          { passive: true, signal }
+        );
+      }
+    }
   }
 
-  /* ---------- Marquee scroll-velocity nudge (skipped under reduced-motion) ---------- */
-  if (!reduce) {
-    const tracks = document.querySelectorAll<HTMLElement>('.marquee-track');
-    let lastY = scrollY;
-    addEventListener(
-      'scroll',
-      () => {
-        const v = Math.min(6, Math.abs(scrollY - lastY) * 0.06);
-        lastY = scrollY;
-        tracks.forEach((t) => {
-          const base = parseFloat(t.dataset.base || '38');
-          t.style.animationDuration = `${Math.max(8, base - v * 4)}s`;
-        });
-      },
-      { passive: true }
-    );
-  }
+  document.addEventListener('astro:page-load', init);
 </script>

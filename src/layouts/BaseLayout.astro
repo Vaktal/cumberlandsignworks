@@ -9,6 +9,7 @@
  *   noIndex     — set true for thank-you / utility pages
  */
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
 import { SEO } from 'astro-seo';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
@@ -88,6 +89,10 @@ const localBusinessSchema = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
+    <!-- SPA-style client routing. Enables `astro:page-load` (motion scripts
+         rebind to it) + the default cross-fade route transition. -->
+    <ViewTransitions />
+
     <SEO
       title={title}
       description={description}
@@ -146,12 +151,16 @@ const localBusinessSchema = {
 
     <StickyCallBar phone={phone} phoneTel={phoneTel} />
 
-    <!-- Site-wide scroll-reveal (tiny). Cursor/magnetic/marquee are homepage-only via MotionRuntime. -->
+    <!-- Site-wide scroll-reveal (tiny). Cursor/magnetic/marquee are homepage-only via MotionRuntime.
+         Bound to `astro:page-load` so the observer re-attaches to each page's
+         elements after every View-Transitions navigation (a module <script>
+         otherwise runs only once and reveals would stay hidden on later pages). -->
     <script>
-      const els = document.querySelectorAll(
-        '[data-reveal], [data-reveal-stagger], .kinetic, .dot-resolve'
-      );
-      if (els.length) {
+      function initReveals() {
+        const els = document.querySelectorAll(
+          '[data-reveal], [data-reveal-stagger], .kinetic, .dot-resolve'
+        );
+        if (!els.length) return;
         const io = new IntersectionObserver(
           (entries) => {
             for (const e of entries) {
@@ -172,6 +181,8 @@ const localBusinessSchema = {
           io.observe(el);
         });
       }
+      // Fires on initial load AND after every View-Transitions navigation.
+      document.addEventListener('astro:page-load', initReveals);
     </script>
   </body>
 </html>

@@ -267,3 +267,16 @@
     }
   }
 }
+
+/* ───────────────── VIEW TRANSITIONS — reduced-motion guard ─────────────────
+   Astro already honors prefers-reduced-motion for its built-in route
+   transitions; this is the belt-and-suspenders cut for the document-level
+   ::view-transition pseudo-elements (handoff §3.5). Lives outside @layer
+   because these pseudo-elements are not part of the cascade layers. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

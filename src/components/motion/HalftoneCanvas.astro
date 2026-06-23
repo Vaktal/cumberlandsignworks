@@ -19,11 +19,26 @@ const { class: cls = '' } = Astro.props;
   aria-hidden="true"></canvas>
 
 <script>
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Bound to `astro:page-load` so the halftone field survives View-Transitions
+     navigation (a module <script> runs once and would otherwise leave a dead
+     canvas after the first client-side nav). Each run aborts the previous
+     page's listeners + rAF loop + observer via AbortController, so nothing
+     accumulates and no loop keeps drawing to a detached canvas. */
+  let controller: AbortController | null = null;
 
-  document.querySelectorAll<HTMLCanvasElement>('canvas[data-halftone]').forEach((cv) => {
-    const ctx = cv.getContext('2d');
-    if (!ctx) return;
+  function init() {
+    controller?.abort();
+    controller = new AbortController();
+    const { signal } = controller;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const canvases = document.querySelectorAll<HTMLCanvasElement>('canvas[data-halftone]');
+    if (!canvases.length) return; // not on this page
+
+    canvases.forEach((cv) => {
+      const ctx = cv.getContext('2d');
+      if (!ctx) return;
     // Read the accent from the single source of truth (--flare) so a palette
     // swap propagates to the canvas with no code change.
     const hex =
@@ -72,14 +87,14 @@ const { class: cls = '' } = Astro.props;
     };
 
     const loop = () => {
-      if (!running) return;
+      if (!running || signal.aborted) return; // stop when navigated away
       draw();
       t += 0.012;
       requestAnimationFrame(loop);
     };
 
     resize();
-    addEventListener('resize', resize, { passive: true });
+    addEventListener('resize', resize, { passive: true, signal });
     addEventListener(
       'pointermove',
       (e) => {
@@ -87,7 +102,7 @@ const { class: cls = '' } = Astro.props;
         pointer.x = (e.clientX - rect.left) * dpr;
         pointer.y = (e.clientY - rect.top) * dpr;
       },
-      { passive: true }
+      { passive: true, signal }
     );
 
     if (reduce) {
@@ -108,5 +123,9 @@ const { class: cls = '' } = Astro.props;
       { threshold: 0 }
     );
     vio.observe(cv);
-  });
+    signal.addEventListener('abort', () => vio.disconnect(), { once: true });
+    });
+  }
+
+  document.addEventListener('astro:page-load', init);
 </script>
