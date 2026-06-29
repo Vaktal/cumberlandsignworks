@@ -22,7 +22,7 @@
 **NOT DONE (this doc covers it):**
 - **Signature orange route-wipe (§3.2) — deferred enhancement.** Baseline is Astro's default cross-fade (live + reduced-motion safe). The flat-orange clip-wipe is NOT built yet: doing it to the "never feels like a load" bar needs visual iteration in a browser. Pick it up as a small polish task. (The §3.6 script-rebinding it depended on is done.)
 - ✅ **Category index pages re-skinned (`bce9d13`)** — `/apparel`, `/signs`, `/vehicle-wraps`, `/print`, `/stores` now use the new `CategoryHero.astro` (ink/halftone hero) + `ServiceIndex.astro` (paper numbered list). Service rows carry `transition:name=svc-title-<slug>` morph anchors. **The morph only activates once §5 (service detail template) gets the matching names** — until then it's a clean default fade. `/print` has no detail pages (the §7.2 gap), so it's a static product list, not links. Verified live (render, halftone, reveals, SPA nav, 0 errors).
-- **Service detail template** (`ServicePageLayout.astro`) — old layout.
+- ✅ **Service detail template re-skinned + morph active (`05f7014`)** — `ServicePageLayout.astro` is now Shop Floor (paper hero, mono breadcrumb, what's-included list, retokened prose, ink mini-proof testimonial). The hero title carries `svc-title-<slug>` matching the category `ServiceIndex`, so the **category→detail morph now fires** (verified: `startViewTransition` runs on `/signs`→`/signs/storefront`). Title is a `<p>` so the MDX hook stays the sole `<h1>`. Stakes left to the MDX. **`heroImage` is wired but undefined for all services until §6 — the `svc-img-<slug>` image morph stays dormant until those photos are curated.**
 - **About** (team bios), **Portfolio** (collection empty), **Contact** (water-tower map), **/resources/checklist** lead magnet — not re-skinned / not built.
 - Real testimonials still placeholder (`src/content/testimonials/featured.json`).
 - Several **catalog gaps** — see §7.
@@ -191,8 +191,8 @@ These are real inconsistencies between the deck, the homepage marquee, and the c
 1. ✅ **DONE (`17a9c1d`)** — Wired View Transitions + rebound scripts to `astro:page-load` (§3.1, §3.6). Verified cursor + halftone survive home→signs→home.
 2. ⏳ **Reduced-motion rule DONE (§3.5); orange wipe DEFERRED (§3.2)** — baseline cross-fade is live. Build the orange clip-wipe as a browser-verified polish task.
 3. ✅ **DONE (`bce9d13`)** — Built `CategoryHero.astro` + `ServiceIndex.astro`; re-skinned the 5 category index pages (§4) with `svc-title-<slug>` morph anchors.
-4. ⏭️ **NEXT** — Re-skin `ServicePageLayout.astro` (§5) with morph anchors; retoken breadcrumb/prose to ink/paper. **Add `transition:name=svc-title-<slug>` (and `svc-img-<slug>` once hero images land, §6) to the detail hero so the category→detail morph activates** — the category side is already emitting these names.
-5. Curate per-service hero images (§6); add `heroImage` to each MDX + the Decap field (§7.4).
+4. ✅ **DONE (`05f7014`)** — Re-skinned `ServicePageLayout.astro` (§5); `svc-title-<slug>` morph active. Title `<p>` + dot-resolve `heroImage` slot with `svc-img-<slug>` (dormant until §6).
+5. ⏭️ **NEXT** — Curate per-service hero images (§6); add `heroImage` to each MDX + the Decap field (§7.4). This activates the `svc-img-<slug>` image morph and gives every detail hero a real photo (currently text-only).
 6. Re-skin About (team grid + water-tower) and Contact (§8).
 7. Build Portfolio collection + grid + case-study detail pages with morph (§8).
 8. Re-skin `/resources/checklist`; replace testimonials with real verbatims (§8).
