@@ -18,7 +18,9 @@ const { Content } = await entry.render();
   title={entry.data.title}
   summary={entry.data.summary}
   category={entry.data.category}
+  slug={entry.slug}
   bullets={entry.data.bullets}
+  heroImage={entry.data.heroImage}
 >
   <Content />
 </ServicePageLayout>
