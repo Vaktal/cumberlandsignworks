@@ -5,7 +5,9 @@ dist/
 # dependencies
 node_modules/
 **/node_modules/
-workers/quote-handler/.wrangler/
+
+# wrangler local state (any level)
+.wrangler/
 .pnpm-store/
 
 # logs

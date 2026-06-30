@@ -1,0 +1,15 @@
+{
+  // Cloudflare Workers static-assets deploy for the Astro build output.
+  //
+  // The marketing site is fully static (`astro build` → ./dist). The quote
+  // form posts to the SEPARATE worker in workers/quote-handler — so the main
+  // site needs no Worker script, just static-asset hosting.
+  //
+  // The Cloudflare deploy command `wrangler versions upload` reads this file
+  // and uploads ./dist as static assets. No adapter, no _worker.js.
+  "name": "cumberlandsignworks",
+  "compatibility_date": "2026-04-29",
+  "assets": {
+    "directory": "./dist"
+  }
+}
